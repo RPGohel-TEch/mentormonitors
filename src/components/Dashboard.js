@@ -342,7 +342,7 @@ const Dashboard = () => {
                 <div className="right-setting-content">
                   <div className="sun-moon-illustration light-theme"></div>
                   <div className="right-head-setting light-theme">
-                    Modify your software here
+                    Modify your software here - setting
                   </div>
                   <div className="right-setting-contents">
                     <div className="dark-mode-setting light-theme d-flex justify-content-between align-items-center">
