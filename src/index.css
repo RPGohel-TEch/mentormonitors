@@ -36,6 +36,39 @@ a {
     text-decoration: none !important;
 }
 
+
+/* light theme scroller */
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #005173;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #005173;
+}
+
 .Signup {
     background: #FFF1D4 !important;
     min-height: 100vh;
@@ -517,6 +550,220 @@ button.tab-button.dark-theme .navigation-btn svg path {
     position: absolute;
     bottom: 15px;
     right: 15px;
+}
+
+.dashboard-body.light-theme .black-board-head {
+    background: #005173;
+}
+
+.dashboard-body.dark-theme .black-board-head {
+    background: #003542;
+}
+
+.black-board-head select {
+    color: whitesmoke !important;
+}
+
+.black-board-head select {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+}
+
+.dashboard-body.light-theme .black-board-head select option {
+    color: #005173 !important;
+}
+
+.dashboard-body.dark-theme .black-board-head select option {
+    color: #001E24 !important;
+}
+
+.black-board-head {
+    border-radius: 40px 40px 0 0;
+    padding: 10px 20px;
+}
+
+.add-students {
+    background: #00CAFA;
+    width: fit-content;
+    padding: 8px 16px;
+    border-radius: 40px;
+    color: #2d2d2d;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.black-board-content-top-section {
+    padding: 0 8px;
+}
+
+.search-students input {
+    background: none;
+    border: none;
+    outline: none;
+    width: 400px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.dashboard-body.light-theme .search-students input {
+    color: #005173;
+}
+
+.search-students .search-icon {
+    padding-bottom: 3px;
+}
+
+.dashboard-body.light-theme .search-students {
+    background: #00CAFA;
+    padding: 5px;
+    border-radius: 20px 0 0 20px;
+    margin-right: -16px;
+}
+
+.accordion-item {
+    border: none !important;
+}
+
+.dashboard-body.light-theme .student-head-in-black-board {
+    background: #45dafe !important;
+    border: none;
+    outline: none;
+}
+
+.accordion-button.student-head-in-black-board {
+    padding: 8px !important;
+    width: 98%;
+}
+
+.black-board-content-main {
+    padding-top: 40px;
+    height: 480px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.profile-in-student {
+    height: 40px;
+    width: 40px;
+    background: white;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #005173;
+}
+
+.name-and-enrollment {
+    width: calc(100% - 50px);
+    padding: 0 8px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #2d2d2d;
+}
+
+.accordion-button::after {
+    background: white url('./images/downarrow.png') no-repeat !important;
+    height: 40px !important;
+    width: 40px !important;
+    background-size: 80% !important;
+    background-position: center center !important;
+    border-radius: 10px;
+}
+
+.dashboard-body.light-theme .three-dots {
+    background: transparent url('./images/three-dot.png') no-repeat !important;
+    background-size: 83% !important;
+    margin-top: 14px;
+    margin-left: 12px;
+    height: 39px;
+    width: 14px;
+    ;
+}
+
+.accordion-item.student-card {
+    background: none;
+    width: 94%;
+    margin: 12px auto;
+}
+
+.accordion-item.student-card .accordion-header {
+    cursor: pointer;
+}
+
+.dropdown-toggle.student-three-dots::after {
+    display: none;
+}
+
+.accordion-student-collapse {
+    background: white;
+    width: calc(100% - 26px);
+}
+
+.basic-detail-head {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d2d2d;
+    margin-bottom: 8px;
+}
+
+.basic-detail-blackboard {
+    color: #2d2d2d;
+}
+
+.student-details-section {
+    width: 215px;
+    color: #2d2d2d;
+    padding: 8px 15px;
+    background: #b7fbff;
+}
+
+.accordion-body {
+    padding: 0 !important;
+}
+
+.accordion-button:not(.collapsed) {
+    box-shadow: none !important;
+}
+
+.student-attendance-result-section {
+    width: calc(100% - 215px);
+    display: flex;
+    justify-content: center;
+}
+
+.student-attendance-result-section>div {
+    width: 100%;
+}
+
+.student-attendance-result-section ul {
+    justify-content: flex-end;
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.student-attendance-result-section ul li {
+    background: #45DAFE;
+}
+
+.student-attendance-result-section ul li:first-child {
+    border-radius: 40px 0 0 40px;
+}
+
+.student-attendance-result-section .nav-pills .nav-link {
+    font-size: 18px;
+    color: #2d2d2d;
+    font-weight: 500;
+}
+
+.student-attendance-result-section .nav-pills .nav-link.active {
+    font-weight: 600;
+    background: #005173;
+    border-radius: 40px 0 0 40px !important;
+    color: whitesmoke;
 }
 
 
