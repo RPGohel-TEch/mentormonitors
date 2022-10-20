@@ -1,5 +1,6 @@
 import Signup from './components/Signup';
 import './index.css';
+import './dark-light.css';
 import {  Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
 import Login from './components/Login';
