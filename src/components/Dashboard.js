@@ -1,6 +1,8 @@
 import React from "react";
 import profileImage from "../images/profile-dash.png"
 import Blackboard from "./Blackboard";
+import Database from "./Database";
+import Material from "./Material";
 import Setting from "./Setting";
 const Dashboard = () => {
  
@@ -238,7 +240,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-db-tab"
               tabIndex={0}
             >
-              database
+              <Database/>
             </div>
             <div
               className="tab-pane fade "
@@ -256,7 +258,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-material-tab"
               tabIndex={0}
             >
-              Material
+              <Material/>
             </div>
             <div
               className="tab-pane fade "

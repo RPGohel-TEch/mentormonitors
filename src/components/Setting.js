@@ -14,7 +14,7 @@ const Setting = () => {
       }
   return (
     <div>
-         <div className="setting-content d-flex">
+         <div className="setting-content d-flex main-setting-content">
                 <div className="left-setting-content light-theme">
                   <div className="left-top-setting-area light-theme">
                     <div className="setting-profile-image">

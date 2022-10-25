@@ -1,7 +1,8 @@
 import React from "react";
-import profileImage from "../images/profile-dash.png";
+// import profileImage from "../images/profile-dash.png";
 
 const Blackboard = () => {
+  
   return (
     <div className="Blackboard">
       <div className="black-board-head d-flex justify-content-between align-items-center">
@@ -85,7 +86,11 @@ const Blackboard = () => {
                       <div className="student-name">Gohel Rahul Pareshbhai</div>
                       <div className="student-enrollment">200405021019</div>
                     </div>
-                    <div className="downarrow-in-student"></div>
+                    
+
+                      <div className="downarrow-in-student"></div>
+                 
+
                   </div>
                 </div>
 
@@ -101,11 +106,20 @@ const Blackboard = () => {
 
                   <ul className="dropdown-menu ">
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a className="dropdown-item" href="#" data-toggle="modal" data-target="#openstudentmodification">
                         edit
                       </a>
                       <a className="dropdown-item" href="#">
                         delete
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Move previous sem
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Move next sem 
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Add Result 
                       </a>
                     </li>
                   </ul>
@@ -122,7 +136,7 @@ const Blackboard = () => {
                     <div className="basic-detail-blackboard">
                       <div className="basic-detail-head">Basic Details</div>
                       <div className="student-info-card">
-                        <b>Date:</b> 17/04/2003
+                        <b>DOB:</b> 17/04/2003
                       </div>
                       <div className="student-info-card">
                         <b>Phone no:</b> 9989784565
@@ -1434,6 +1448,55 @@ const Blackboard = () => {
               </div>
             </div> */}
            
+           
+
+
+<div className="modal fade" id="openstudentmodification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog modal-dialog-centered" role="document">
+    <div className="modal-content custom-modal-content">
+      <div className="modal-header custom-modal-header">
+        <h5 className="modal-title custom-modal-title" id="exampleModalLabel">Edit Student</h5>
+        <button type="button" className="close model-close-custom" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div className="modal-body custom-modal-body">
+        <form className="student-detail-edit-form" action="">
+          <div className="form-heading">
+            Basic details 
+          </div>
+          <label htmlFor="">DOB</label>
+          <input type="date" max="current"/>
+          <br />
+          <label htmlFor="">Phone no </label>
+          <input type="text" />
+          <br />
+          <label htmlFor="">Email </label>
+          <input type="text" />
+          <br />
+          <label htmlFor="">Address </label>
+          <input type="text" />
+          <br />
+          <div className="form-heading">
+            Education details 
+          </div>
+          <label htmlFor="">SSC</label>
+          <input type="number" max="100" min="0"step="5" />
+          <br />
+          <label htmlFor=""> HSC </label>
+          <input type="text" max="100" min="0"step="5" />
+          <br />
+          <label htmlFor="">Graduation </label>
+          <input type="text" max="10" min="0"step="1" />
+          <br />
+          <input type="submit" className="course-submit" value="Edit" />
+
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
           </div>
         </div>
       </div>
