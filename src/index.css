@@ -614,6 +614,10 @@ button.tab-button.dark-theme .navigation-btn svg path {
     margin-bottom: 8px;
 }
 
+.search-students {
+    margin-left: auto;
+}
+
 .search-students input {
     background: none;
     border: none;
@@ -894,7 +898,7 @@ select {
     background: #005173 !important;
     color: whitesmoke;
     border-radius: 18px;
-    padding: 4px 18px !important;
+    padding: 6px 18px !important;
     font-size: 16px;
 }
 
@@ -961,6 +965,95 @@ select {
     background: #005173;
     border-radius: 100%;
     margin: 3px;
+}
+
+.total-sem-show {
+    color: #005173;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.self-batch-rename {
+    padding: 8px 16px;
+    margin: 8px 0;
+    margin-left: auto;
+    width: fit-content;
+    background: #005173;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 28px 0 0 28px;
+    cursor: pointer;
+}
+
+.are-you-sure {
+    font-size: 26px;
+    text-align: center;
+    color: #005173;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.confirmation-answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-answer div {
+    color: white !important;
+    font-weight: 600;
+    background: #005173;
+    outline: none;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 8px;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+.confirmation-answer div:last-child {
+    background: #ce0f0f;
+}
+
+.delete-icon svg {
+    height: 50px;
+    width: 50px;
+    fill: #ce0f0f;
+}
+
+.delete-icon {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.material-subjects ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.material-subjects ul li {
+    margin: 10px 0;
+    width: 180px;
+    background: whitesmoke;
+    border-radius: 18px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.material-subjects ul li div {
+    color: #2d2d2d !important;
+    font-weight: 600;
+}
+
+.material-subjects .nav-pills .nav-link.active {
+    background: #005173 !important;
+    color: whitesmoke !important;
+}
+
+.material-subjects {
+    width: 200px;
 }
 
 
