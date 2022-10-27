@@ -42,7 +42,7 @@ const Material = () => {
                     </select>
                   </div>
                 </div>  
-                <div className="material-subjects-cards-content d-flex mt-3">
+                <div className="material-subjects-cards-content d-flex ">
                     <div className="material-subjects">
                    
                         <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">

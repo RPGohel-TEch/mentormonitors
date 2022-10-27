@@ -95,7 +95,7 @@ const Database = () => {
                           Edit
                         </a>
                         <a className="dropdown-item" href="#">
-                          delete
+                          Delete
                         </a>
                         <a className="dropdown-item" href="#">
                           Move Sem forward
@@ -288,7 +288,7 @@ const Database = () => {
                             aria-controls="pills-attendance"
                             aria-selected="true"
                           >
-                            Attendance
+                            Lectures
                           </button>
                         </li>
                         <li className="nav-item" role="presentation">
@@ -302,7 +302,7 @@ const Database = () => {
                             aria-controls="pills-result"
                             aria-selected="false"
                           >
-                            Result
+                            Students
                           </button>
                         </li>
                         
@@ -402,7 +402,7 @@ const Database = () => {
                           data-toggle="modal"
                           data-target="#editSubject"
                         >
-                          Rename
+                          Edit
                         </a>
                         <a
                           className="dropdown-item"
@@ -410,7 +410,7 @@ const Database = () => {
                           data-toggle="modal"
                           data-target="#deleteConfirmation"
                         >
-                          delete
+                          Delete
                         </a>
                       </li>
                     </ul>
