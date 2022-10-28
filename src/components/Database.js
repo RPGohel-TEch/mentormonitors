@@ -220,15 +220,7 @@ const Database = () => {
                       <a className="dropdown-item" href="#">
                         delete
                       </a>
-                      <a className="dropdown-item" href="#">
-                        Move previous sem
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Move next sem 
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Add Result 
-                      </a>
+                     
                     </li>
                   </ul>
                 </div>
@@ -371,12 +363,21 @@ const Database = () => {
                   </select>
                 </div>
               </div>
+              <div className="d-flex">
               <div
-                className="self-batch-rename"
+                className="self-batch-rename self-batch-delete "
+                data-toggle="modal"
+                data-target="#deleteBatch"
+              >
+                Delete Self batch
+              </div>
+              <div
+                className="self-batch-rename "
                 data-toggle="modal"
                 data-target="#editBatch"
               >
                 Edit Self batch
+              </div>
               </div>
               <div className="subject-cards-main">
                 <div className="subject-card">
