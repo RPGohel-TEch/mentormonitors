@@ -13,7 +13,7 @@ const Database = () => {
   const [courseEditSem, setcourseEditSem] = useState("");
 
   const getcourseData = async () => {
-    const { data } = await axios.get(`https://mentormonitor.vercel.app/dashboard/course/`);
+    const { data } = await axios.get(`https://mentormonitor.vercel.app/course/`);
     setcourseData(data?.data?.users);
   };
   
@@ -23,7 +23,7 @@ const Database = () => {
 
   const courseSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://mentormonitor.vercel.app/dashboard/add-course', {
+    axios.post('https://mentormonitor.vercel.app/add-course', {
       course_name: courseName,
       semester : courseSem,
       first_batch : courseBatch
@@ -38,14 +38,14 @@ const Database = () => {
 
   const courseEditData = async(id) => {
     setCourseEditId(id);
-    const { data } = await axios.get(`https://mentormonitor.vercel.app/dashboard/course/${id}`);
+    const { data } = await axios.get(`https://mentormonitor.vercel.app/course/${id}`);
     setcourseEditName(data?.data?.course_name);
     setcourseEditSem(data?.data?.semester);
   }
 
   const courseEdit = (e) => {
     e.preventDefault();
-    axios.put(`https://mentormonitor.vercel.app/dashboard/course/edit-course/${courseEditId}`, {
+    axios.put(`https://mentormonitor.vercel.app/course/edit-course/${courseEditId}`, {
       course_name: courseEditName,
       semester : courseEditSem,
     })
@@ -58,7 +58,7 @@ const Database = () => {
   }
 
   const deleteCourse = (id) => {
-    axios.delete(`https://mentormonitor.vercel.app/dashboard/course/delete-course/${id}`)
+    axios.delete(`https://mentormonitor.vercel.app/course/delete-course/${id}`)
     .then(function() {
       getcourseData()
     })
@@ -66,7 +66,7 @@ const Database = () => {
 
   const subjectSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/subject/add-subject', {
+    axios.post('https://mentormonitor.vercel.app/subject/add-subject', {
       subject_name: subjectName,
     })
     .then(function (response) {
