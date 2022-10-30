@@ -7,8 +7,6 @@ const Layout = () => {
   return (
     <div>
       <Dashboard/>
-
-   
     </div>
   );
 };

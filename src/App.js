@@ -9,11 +9,10 @@ import React from 'react';
 function App() {
   return (
     <div className="App">
-
       <Routes>  
-          <Route path='/' element={<Layout />} />
           <Route path='/login' element={<Login />} />
-          <Route path="/signup" element={<Signup />} />  
+          <Route path="/signup" element={<Signup />} />
+          <Route path='/dashboard' element={<Layout />} />
       </Routes>
     </div>
   );
