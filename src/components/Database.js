@@ -13,7 +13,7 @@ const Database = () => {
   const [courseEditSem, setcourseEditSem] = useState("");
 
   const getcourseData = async () => {
-    const { data } = await axios.get(`http://localhost:8000/course/`);
+    const { data } = await axios.get(`https://mentormonitor.vercel.app/dashboard/course/`);
     setcourseData(data?.data?.users);
   };
   
@@ -23,7 +23,7 @@ const Database = () => {
 
   const courseSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8000/course/add-course', {
+    axios.post('https://mentormonitor.vercel.app/dashboard/add-course', {
       course_name: courseName,
       semester : courseSem,
       first_batch : courseBatch
@@ -38,14 +38,14 @@ const Database = () => {
 
   const courseEditData = async(id) => {
     setCourseEditId(id);
-    const { data } = await axios.get(`http://localhost:8000/course/${id}`);
+    const { data } = await axios.get(`https://mentormonitor.vercel.app/dashboard/course/${id}`);
     setcourseEditName(data?.data?.course_name);
     setcourseEditSem(data?.data?.semester);
   }
 
   const courseEdit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:8000/course/edit-course/${courseEditId}`, {
+    axios.put(`https://mentormonitor.vercel.app/dashboard/course/edit-course/${courseEditId}`, {
       course_name: courseEditName,
       semester : courseEditSem,
     })
@@ -58,7 +58,7 @@ const Database = () => {
   }
 
   const deleteCourse = (id) => {
-    axios.delete(`http://localhost:8000/course/delete-course/${id}`)
+    axios.delete(`https://mentormonitor.vercel.app/dashboard/course/delete-course/${id}`)
     .then(function() {
       getcourseData()
     })
