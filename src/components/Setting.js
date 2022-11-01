@@ -1,30 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import profileImage from "../images/profile-dash.png";
 import $ from "jquery";
 
 const Setting = () => {
-  const userTheme = localStorage.getItem("Theme");
-
-  console.log(userTheme,"sasasa")
-
-  $(document).ready(function(){
-    if (userTheme == "dark-theme") {
-      $("#changeTheme").prop('checked', true);
-    }
-  })
   
+  
+
+  useEffect(() => {
+    const userTheme = localStorage.getItem("Theme");
+   
+    let changeThemeJs = document.getElementById('changeTheme')
+  
+    console.log(userTheme)
+    if (userTheme === "dark-theme") {
+      // console.log(changeThemeJs)
+      changeThemeJs.checked =true;
+      
+      
+    }
+    
+   
+    
+    getTheme()
+      
+  }, [])
+ 
+
   function getTheme() {
     if ($("#changeTheme").prop("checked")) {
       $(".light-theme").addClass("dark-theme");
       $(".dark-theme").removeClass("light-theme");
       localStorage.setItem("Theme", "dark-theme");
+      
+
     } else {
       $(".dark-theme").addClass("light-theme");
       $(".light-theme").removeClass("dark-theme");
       localStorage.setItem("Theme", "light-theme");
+ 
+
     }
   }
-
+  
   return (
     <div>
       <div className="setting-content d-flex main-setting-content">
@@ -119,7 +136,7 @@ const Setting = () => {
                     type="checkbox"
                     id="changeTheme"
                     onInput={getTheme}
-                    checked
+                    
                   />
                   <label
                     htmlFor="changeTheme"

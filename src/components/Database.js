@@ -13,69 +13,73 @@ const Database = () => {
   const [courseEditSem, setcourseEditSem] = useState("");
 
   const getcourseData = async () => {
-    const { data } = await axios.get(`https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/course/`);
+    const { data } = await axios.get(`http://localhost:8000/course/`);
     setcourseData(data?.data?.users);
   };
-  
+
   useEffect(() => {
     getcourseData();
   }, []);
 
   const courseSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/course/add-course', {
-      course_name: courseName,
-      semester : courseSem,
-      first_batch : courseBatch
-    })
-    .then(function (response) {
-      getcourseData();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+    axios
+      .post("http://localhost:8000/course/add-course", {
+        course_name: courseName,
+        semester: courseSem,
+        first_batch: courseBatch,
+      })
+      .then(function (response) {
+        getcourseData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-  const courseEditData = async(id) => {
+  const courseEditData = async (id) => {
     setCourseEditId(id);
-    const { data } = await axios.get(`https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/course/${id}`);
+    const { data } = await axios.get(`http://localhost:8000/course/${id}`);
     setcourseEditName(data?.data?.course_name);
     setcourseEditSem(data?.data?.semester);
-  }
+  };
 
   const courseEdit = (e) => {
     e.preventDefault();
-    axios.put(`https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/course/edit-course/${courseEditId}`, {
-      course_name: courseEditName,
-      semester : courseEditSem,
-    })
-    .then(function (response) {
-      getcourseData();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+    axios
+      .put(`http://localhost:8000/course/edit-course/${courseEditId}`, {
+        course_name: courseEditName,
+        semester: courseEditSem,
+      })
+      .then(function (response) {
+        getcourseData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const deleteCourse = (id) => {
-    axios.delete(`https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/course/delete-course/${id}`)
-    .then(function() {
-      getcourseData()
-    })
-  } 
+    axios
+      .delete(`http://localhost:8000/course/delete-course/${id}`)
+      .then(function () {
+        getcourseData();
+      });
+  };
 
   const subjectSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://mentor-backend-ozfpfeukh-mentormonitor.vercel.app/subject/add-subject', {
-      subject_name: subjectName,
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+    axios
+      .post("http://localhost:8000/subject/add-subject", {
+        subject_name: subjectName,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="Database">
@@ -144,60 +148,66 @@ const Database = () => {
                 data-toggle="modal"
                 data-target="#addCourse"
               ></div>
-              <div className="subject-cards-main d-flex">
-                {courseData && courseData?.map((d)=>(
-                  <div className="subject-card">
-                  <div className="dropdown">
-                    <div
-                      className="dropdown-toggle student-three-dots"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <div className="three-dots-in-subjects">
-                        <div className="dot-subject"></div>
-                        <div className="dot-subject"></div>
-                        <div className="dot-subject"></div>
+              <div className="subject-cards-main d-flex flex-wrap">
+                {courseData &&
+                  courseData?.map((d) => (
+                    <div className="subject-card">
+                      <div className="dropdown">
+                        <div
+                          className="dropdown-toggle student-three-dots"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <div className="three-dots-in-subjects">
+                            <div className="dot-subject"></div>
+                            <div className="dot-subject"></div>
+                            <div className="dot-subject"></div>
+                          </div>
+                        </div>
+
+                        <ul className="dropdown-menu ">
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              onClick={() => courseEditData(d?._id)}
+                              data-toggle="modal"
+                              data-target="#editCourse"
+                            >
+                              Edit
+                            </a>
+                            <a
+                              className="dropdown-item"
+                              href=""
+                              onClick={() => deleteCourse(d?._id)}
+                            >
+                              Delete
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              Move Sem forward
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              Move Sem backward
+                            </a>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#addBatch"
+                            >
+                              Add batch
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="subject-name">{d?.course_name}</div>
+                      <div className="total-sem-show">
+                        Total Sem: {d?.semester}
+                        <br />
+                        Total stu: 0
                       </div>
                     </div>
-
-                    <ul className="dropdown-menu ">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          onClick={() => courseEditData(d?._id)}
-                          data-toggle="modal"
-                          data-target="#editCourse"
-                        >
-                          Edit
-                        </a>
-                        <a className="dropdown-item" href="" onClick={() => deleteCourse(d?._id)}>
-                          Delete
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Move Sem forward
-                        </a>
-                        <a className="dropdown-item" href="#">
-                          Move Sem backward
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#addBatch"
-                        >
-                          Add batch
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="subject-name">{d?.course_name}</div>
-                  <div className="total-sem-show">
-                    Total sem: 8 <br />
-                    Total stu: 3500
-                  </div>
-                </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>
@@ -228,7 +238,7 @@ const Database = () => {
                       >
                         <path
                           fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          clipRule="evenodd"
                           d="M14.0341 12.8894L19.3046 18.1463C19.4898 18.3312 19.5938 18.5819 19.5938 18.8433C19.5937 19.1047 19.4895 19.3554 19.3041 19.5401C19.1187 19.7249 18.8673 19.8287 18.6053 19.8286C18.3432 19.8285 18.0919 19.7245 17.9066 19.5396L12.6362 14.2827C11.0606 15.4999 9.07934 16.0727 7.09542 15.8846C5.1115 15.6965 3.27394 14.7615 1.95657 13.2701C0.639193 11.7786 -0.0590382 9.84251 0.00391497 7.85576C0.0668681 5.86901 0.886277 3.9808 2.29545 2.57526C3.70462 1.16971 5.5977 0.352409 7.58957 0.289618C9.58144 0.226827 11.5225 0.923262 13.0178 2.23725C14.5132 3.55123 15.4505 5.38406 15.6391 7.36288C15.8277 9.3417 15.2534 11.3179 14.0331 12.8894H14.0341ZM7.83786 13.9652C9.39677 13.9652 10.8918 13.3475 11.9941 12.248C13.0964 11.1485 13.7157 9.65733 13.7157 8.10244C13.7157 6.54754 13.0964 5.05634 11.9941 3.95686C10.8918 2.85739 9.39677 2.23971 7.83786 2.23971C6.27896 2.23971 4.78391 2.85739 3.6816 3.95686C2.57929 5.05634 1.96001 6.54754 1.96001 8.10244C1.96001 9.65733 2.57929 11.1485 3.6816 12.248C4.78391 13.3475 6.27896 13.9652 7.83786 13.9652Z"
                           fill="#005173"
                         />
@@ -437,9 +447,10 @@ const Database = () => {
               <div className="black-board-head subject-handle-head d-flex justify-content-between align-items-center">
                 <div className="course-selection">
                   <select name="" id="">
-                    <option value="">IMSCIT</option>
-                    <option value="">BCA</option>
-                    <option value="">B.TECH</option>
+                    {courseData &&
+                      courseData?.map((d) => (
+                        <option value={d?.course_name}>{d?.course_name}</option>
+                      ))}
                   </select>
                 </div>
                 <div className="semester-selection">
@@ -458,22 +469,22 @@ const Database = () => {
                 </div>
               </div>
               <div className="d-flex">
-              <div
-                className="self-batch-rename self-batch-delete "
-                data-toggle="modal"
-                data-target="#deleteBatch"
-              >
-                Delete Self batch
+                <div
+                  className="self-batch-rename self-batch-delete "
+                  data-toggle="modal"
+                  data-target="#deleteBatch"
+                >
+                  Delete Self batch
+                </div>
+                <div
+                  className="self-batch-rename "
+                  data-toggle="modal"
+                  data-target="#editBatch"
+                >
+                  Edit Self batch
+                </div>
               </div>
-              <div
-                className="self-batch-rename "
-                data-toggle="modal"
-                data-target="#editBatch"
-              >
-                Edit Self batch
-              </div>
-              </div>
-              <div className="subject-cards-main">
+              <div className="subject-cards-main d-flex flex-wrap">
                 <div className="subject-card">
                   <div className="dropdown">
                     <div
@@ -618,11 +629,18 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Course Name:</label>
-                <input type="text" onChange={(e) => setCourseName(e.target.value)}/>
+                <input
+                  type="text"
+                  onChange={(e) => setCourseName(e.target.value)}
+                />
                 <br />
                 <br />
                 <label htmlFor="">Semester: </label>
-                <select name="sem" id="sem" onChange={(e) => setCourseSem(e.target.value)}>
+                <select
+                  name="sem"
+                  id="sem"
+                  onChange={(e) => setCourseSem(e.target.value)}
+                >
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -640,7 +658,10 @@ const Database = () => {
                 </select>
                 <br />
                 <label htmlFor="">First Batch Name: </label>
-                <input type="text" onChange={(e) => setCourseBatch(e.target.value)}/>
+                <input
+                  type="text"
+                  onChange={(e) => setCourseBatch(e.target.value)}
+                />
                 <br />
                 <input
                   type="submit"
@@ -683,11 +704,20 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Course Name:</label>
-                <input type="text" value={courseEditName} onChange={(e) => setcourseEditName(e.target.value)}/>
+                <input
+                  type="text"
+                  value={courseEditName}
+                  onChange={(e) => setcourseEditName(e.target.value)}
+                />
                 <br />
                 <br />
                 <label htmlFor="">Semester: </label>
-                <select name="" id="" value={courseEditSem} onChange={(e) => setcourseEditSem(e.target.value)}>
+                <select
+                  name=""
+                  id=""
+                  value={courseEditSem}
+                  onChange={(e) => setcourseEditSem(e.target.value)}
+                >
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -888,14 +918,17 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Subject Name:</label>
-                <input type="text" onChange={(e) => setSubjectName(e.target.value)}/>
+                <input
+                  type="text"
+                  onChange={(e) => setSubjectName(e.target.value)}
+                />
                 <br />
 
                 <input
                   type="submit"
                   className="course-submit"
                   value="Add Subject"
-                  onClick={(e)=>subjectSubmit(e)}
+                  onClick={(e) => subjectSubmit(e)}
                 />
               </form>
             </div>

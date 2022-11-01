@@ -1,23 +1,41 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 // import profileImage from "../images/profile-dash.png";
+import $ from "jquery";
 
 const Blackboard = () => {
+  const [courseData, setcourseData] = useState([]);
+  const getcourseData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/course/`);
+    setcourseData(data?.data?.users);
+  };
   
+  useEffect(() => {
+    getcourseData();
+  }, []);
+
+  function selectedCourse(){
+    console.log($('#selectcourse-blackboard').val())
+  }
   return (
     <div className="Blackboard">
+      
       <div className="black-board-head d-flex justify-content-between align-items-center">
         <div className="course-selection">
-          <select name="" id="">
-            <option value="">IMSCIT</option>
-            <option value="">BCA</option>
-            <option value="">B.TECH</option>
+          <select name="" id="selectcourse-blackboard" onChange={selectedCourse}>
+          {courseData && courseData?.map((d)=>(
+
+            <option value={d?.course_name} >{d?.course_name}</option>
+           
+            ))}
           </select>
         </div>
         <div className="semester-selection">
           <select name="" id="">
-            <option value="">Sem 1st</option>
-            <option value="">Sem 2nd</option>
-            <option value="">Sem 3rd</option>
+            <option value="">sem 1</option>
+            <option value="">sem 2</option>
+            <option value="">sem 3</option>
+            
           </select>
         </div>
         <div className="batch-selection">
@@ -28,6 +46,7 @@ const Blackboard = () => {
           </select>
         </div>
       </div>
+      
       <div className="black-board-content p-2">
         <div className="black-board-content-top-section d-flex align-items-center justify-content-between ">
           <div className="add-students">+ Add student</div>
@@ -42,7 +61,7 @@ const Blackboard = () => {
               >
                 <path
                   fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                   d="M14.0341 12.8894L19.3046 18.1463C19.4898 18.3312 19.5938 18.5819 19.5938 18.8433C19.5937 19.1047 19.4895 19.3554 19.3041 19.5401C19.1187 19.7249 18.8673 19.8287 18.6053 19.8286C18.3432 19.8285 18.0919 19.7245 17.9066 19.5396L12.6362 14.2827C11.0606 15.4999 9.07934 16.0727 7.09542 15.8846C5.1115 15.6965 3.27394 14.7615 1.95657 13.2701C0.639193 11.7786 -0.0590382 9.84251 0.00391497 7.85576C0.0668681 5.86901 0.886277 3.9808 2.29545 2.57526C3.70462 1.16971 5.5977 0.352409 7.58957 0.289618C9.58144 0.226827 11.5225 0.923262 13.0178 2.23725C14.5132 3.55123 15.4505 5.38406 15.6391 7.36288C15.8277 9.3417 15.2534 11.3179 14.0331 12.8894H14.0341ZM7.83786 13.9652C9.39677 13.9652 10.8918 13.3475 11.9941 12.248C13.0964 11.1485 13.7157 9.65733 13.7157 8.10244C13.7157 6.54754 13.0964 5.05634 11.9941 3.95686C10.8918 2.85739 9.39677 2.23971 7.83786 2.23971C6.27896 2.23971 4.78391 2.85739 3.6816 3.95686C2.57929 5.05634 1.96001 6.54754 1.96001 8.10244C1.96001 9.65733 2.57929 11.1485 3.6816 12.248C4.78391 13.3475 6.27896 13.9652 7.83786 13.9652Z"
                   fill="#005173"
                 />

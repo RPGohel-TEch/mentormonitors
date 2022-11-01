@@ -590,13 +590,21 @@
     }
     
     .add-students {
-        background: #00CAFA;
         width: fit-content;
         padding: 8px 16px;
         border-radius: 40px;
-        color: #2d2d2d;
         font-size: 17px;
         font-weight: 500;
+    }
+    
+    .dashboard-body.light-theme .add-students {
+        color: #2d2d2d;
+        background: #00CAFA;
+    }
+    
+    .dashboard-body.dark-theme .add-students {
+        color: whitesmoke;
+        background: #036d86;
     }
     
     .black-board-content-top-section {
@@ -606,6 +614,9 @@
     
     .search-students {
         margin-left: auto;
+        padding: 5px;
+        border-radius: 20px 0 0 20px;
+        margin-right: -16px;
     }
     
     .search-students input {
@@ -621,15 +632,28 @@
         color: #005173;
     }
     
+    .dashboard-body.dark-theme .search-students input {
+        color: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .search-students input::placeholder {
+        color: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .search-students .search-icon svg path {
+        fill: whitesmoke;
+    }
+    
     .search-students .search-icon {
         padding-bottom: 3px;
     }
     
     .dashboard-body.light-theme .search-students {
         background: #00CAFA;
-        padding: 5px;
-        border-radius: 20px 0 0 20px;
-        margin-right: -16px;
+    }
+    
+    .dashboard-body.dark-theme .search-students {
+        background: #036d86;
     }
     
     .accordion-item {
@@ -638,6 +662,12 @@
     
     .dashboard-body.light-theme .student-head-in-black-board {
         background: #45dafe !important;
+        border: none;
+        outline: none;
+    }
+    
+    .dashboard-body.dark-theme .student-head-in-black-board {
+        background: #036d86 !important;
         border: none;
         outline: none;
     }
@@ -674,7 +704,14 @@
         padding: 0 8px;
         font-size: 20px;
         font-weight: 500;
+    }
+    
+    .dashboard-body.light-theme .name-and-enrollment {
         color: #2d2d2d;
+    }
+    
+    .dashboard-body.dark-theme .name-and-enrollment {
+        color: whitesmoke;
     }
     
     .accordion-button::after {
@@ -696,6 +733,17 @@
         ;
     }
     
+    .dashboard-body.dark-theme .three-dots {
+        background: transparent url('./images/three-dot.png') no-repeat !important;
+        background-size: 83% !important;
+        margin-top: 14px;
+        margin-left: 12px;
+        height: 39px;
+        width: 14px;
+        ;
+        filter: brightness(5.5);
+    }
+    
     .accordion-item.student-card {
         background: none;
         width: 94%;
@@ -715,22 +763,50 @@
         width: calc(100% - 26px);
     }
     
+    .dashboard-body.light-theme .accordion-student-collapse {
+        background: white;
+    }
+    
+    .dashboard-body.dark-theme .accordion-student-collapse {
+        background: transparent;
+    }
+    
     .basic-detail-head {
         font-size: 18px;
         font-weight: 600;
-        color: #2d2d2d;
         margin-bottom: 8px;
     }
     
-    .basic-detail-blackboard {
+    .dashboard-body.light-theme .basic-detail-head {
         color: #2d2d2d;
+    }
+    
+    .dashboard-body.dark-theme .basic-detail-head {
+        color: whitesmoke;
+    }
+    
+    .dashboard-body.light-theme .basic-detail-blackboard,
+    .dashboard-body.light-theme .education-detail-blackboard {
+        color: #2d2d2d;
+    }
+    
+    .dashboard-body.dark-theme .basic-detail-blackboard,
+    .dashboard-body.dark-theme .education-detail-blackboard {
+        color: whitesmoke;
     }
     
     .student-details-section {
         width: 215px;
-        color: #2d2d2d;
         padding: 8px 15px;
+    }
+    
+    .dashboard-body.light-theme .student-details-section {
+        color: #2d2d2d;
         background: #b7fbff;
+    }
+    
+    .dashboard-body.dark-theme .student-details-section {
+        background: #00191f;
     }
     
     .accordion-body {
@@ -745,6 +821,10 @@
         width: calc(100% - 215px);
         display: flex;
         justify-content: center;
+    }
+    
+    .dashboard-body.dark-theme .student-attendance-result-section {
+        background: #003542;
     }
     
     .student-attendance-result-section>div {
@@ -773,9 +853,25 @@
     
     .student-attendance-result-section .nav-pills .nav-link.active {
         font-weight: 600;
-        background: #005173;
         border-radius: 40px 0 0 40px !important;
         color: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .student-attendance-result-section .nav-pills .nav-link.active {
+        background: #005173;
+    }
+    
+    .dashboard-body.light-theme .student-attendance-result-section .nav-pills .nav-link.active {
+        background: #036d86;
+    }
+    
+    .dashboard-body.dark-theme .student-attendance-result-section .nav-pills .nav-link {
+        background: #001e24;
+        color: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .student-attendance-result-section ul li {
+        background: transparent;
     }
     /* modal css starts from here */
     
@@ -847,8 +943,15 @@
     }
     
     .material-head {
-        background: #005173;
         border-radius: 40px 40px 0 0;
+    }
+    
+    .dashboard-body.light-theme .material-head {
+        background: #005173;
+    }
+    
+    .dashboard-body.dark-theme .material-head {
+        background: #003542;
     }
     
     .material-head ul li a {
@@ -858,15 +961,24 @@
     }
     
     .material-head .nav-pills .nav-link.active {
-        background: #00CAFA;
         border-radius: 25px 0 28px 28px;
+        background: #00CAFA;
         color: #005173 !important;
+    }
+    
+    .dashboard-body.light-theme .material-head .nav-pills .nav-link.active {
+        background: #00CAFA;
+        color: #005173 !important;
+    }
+    
+    .dashboard-body.dark-theme .material-head .nav-pills .nav-link.active {
+        background: #036d86;
+        color: whitesmoke !important;
     }
     
     .plus-icon {
         height: 50px;
         width: 50px;
-        background: #005173 url('./images/plus-icon.png')no-repeat;
         background-size: 50%;
         background-position: center;
         border-radius: 100%;
@@ -874,6 +986,18 @@
         bottom: 15px;
         right: 15px;
         cursor: pointer;
+    }
+    
+    .dashboard-body.light-theme .plus-icon {
+        background: #005173 url('./images/plus-icon.png')no-repeat;
+        background-size: 50%;
+        background-position: center;
+    }
+    
+    .dashboard-body.dark-theme .plus-icon {
+        background: #036d86 url('./images/plus-icon.png')no-repeat;
+        background-size: 50%;
+        background-position: center;
     }
     
     select {
@@ -893,17 +1017,27 @@
     .subject-handle-head.black-board-head {
         border-radius: 0;
         margin-top: -14px;
-        background: white !important;
     }
     
-    .subject-handle-head.black-board-head select {
+    .dashboard-body.light-theme .subject-handle-head.black-board-head {
+        background: whitesmoke !important;
+    }
+    
+    .dashboard-body.dark-theme .subject-handle-head.black-board-head {
+        background: #036d86 !important;
+    }
+    
+    .dashboard-body.light-theme .subject-handle-head.black-board-head select {
         color: #005173 !important;
+    }
+    
+    .dashboard-body.dark-theme .subject-handle-head.black-board-head select {
+        color: whitesmoke !important;
     }
     
     .subject-card {
         height: 200px;
         width: 150px;
-        background: #00cafa;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -912,8 +1046,15 @@
         border-radius: 12px;
     }
     
+    .dashboard-body.light-theme .subject-card {
+        background: #00cafa;
+    }
+    
+    .dashboard-body.dark-theme .subject-card {
+        background: #003542;
+    }
+    
     .subject-card .subject-name {
-        color: #005173;
         font-weight: 500;
         font-size: 16px;
         text-align: center;
@@ -924,9 +1065,16 @@
         -webkit-box-orient: vertical;
     }
     
+    .dashboard-body.light-theme .subject-card .subject-name {
+        color: #005173;
+    }
+    
+    .dashboard-body.dark-theme .subject-card .subject-name {
+        color: whitesmoke;
+    }
+    
     .subject-card select {
         font-size: 16px;
-        color: #005173;
         font-weight: 500;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -935,6 +1083,18 @@
         -webkit-box-orient: vertical;
         margin-bottom: 5px;
         cursor: pointer;
+    }
+    
+    .dashboard-body.light-theme .subject-card select {
+        color: #005173;
+    }
+    
+    .dashboard-body.dark-theme .subject-card select {
+        color: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .subject-card select option {
+        color: black !important;
     }
     
     .three-dots-in-subjects {
@@ -950,15 +1110,29 @@
     .three-dots-in-subjects .dot-subject {
         height: 8px;
         width: 8px;
-        background: #005173;
         border-radius: 100%;
         margin: 3px;
     }
     
+    .dashboard-body.light-theme .three-dots-in-subjects .dot-subject {
+        background: #005173;
+    }
+    
+    .dashboard-body.dark-theme .three-dots-in-subjects .dot-subject {
+        background: whitesmoke;
+    }
+    
     .total-sem-show {
-        color: #005173;
         font-size: 16px;
         font-weight: 600;
+    }
+    
+    .dashboard-body.light-theme .total-sem-show {
+        color: #005173;
+    }
+    
+    .dashboard-body.dark-theme .total-sem-show {
+        color: whitesmoke;
     }
     
     .self-batch-rename.self-batch-delete {
@@ -970,12 +1144,20 @@
         padding: 8px 16px;
         margin: 8px;
         width: fit-content;
-        background: #005173;
-        color: white;
         font-size: 16px;
         font-weight: 600;
         border-radius: 28px 0 0 28px;
         cursor: pointer;
+    }
+    
+    .dashboard-body.dark-theme .self-batch-rename {
+        background: #036d86;
+        color: white;
+    }
+    
+    .dashboard-body.light-theme .self-batch-rename {
+        background: #005173;
+        color: white;
     }
     
     .are-you-sure {
@@ -1028,20 +1210,47 @@
     .material-subjects ul li {
         margin: 10px 0;
         width: 180px;
-        background: whitesmoke;
         border-radius: 18px;
         overflow: hidden;
         text-align: center;
     }
     
     .material-subjects ul li div {
-        color: #2d2d2d !important;
         font-weight: 600;
     }
     
-    .material-subjects .nav-pills .nav-link.active {
-        background: #005173 !important;
+    .dashboard-body.light-theme .material-subjects ul li {
+        background: whitesmoke;
+    }
+    
+    .dashboard-body.dark-theme .material-subjects ul li {
+        background: #003542;
+    }
+    
+    .dashboard-body.light-theme .material-subjects ul li div {
+        color: #2d2d2d !important;
+    }
+    
+    .dashboard-body.dark-theme .material-subjects ul li div {
         color: whitesmoke !important;
+    }
+    
+    .dashboard-body.light-theme .material-subjects ul li div.nav-link.active {
+        background: #005173;
+        color: whitesmoke !important;
+    }
+    
+    .dashboard-body.dark-theme .material-subjects ul li div.nav-link.active {
+        background: #036d86;
+    }
+    
+    .dashboard-body.light-theme .material-subjects {
+        background: #00cafa !important;
+        color: whitesmoke !important;
+    }
+    
+    .dashboard-body.dark-theme .material-subjects {
+        background: #00191f !important;
     }
     
     .material-subjects {
@@ -1049,6 +1258,25 @@
         background: #00cafa;
         height: 68vh;
         border-radius: 0 0 40px 40px;
+    }
+    
+    .container.work-in-progress-lottie svg {
+        max-height: 515px !important;
+    }
+    
+    .work-in-progress-title {
+        font-size: 40px;
+        color: #005173;
+        text-align: center;
+        font-weight: 700;
+    }
+    
+    .dashboard-body.light-theme .material-books-pdf {
+        color: black !important;
+    }
+    
+    .dashboard-body.dark-theme .material-books-pdf {
+        color: whitesmoke !important;
     }
     /* media queries */
     
@@ -1086,6 +1314,10 @@
         }
         .dashboard-nav-content {
             margin: 0 25px 15px 25px;
+            min-height: 80vh;
+        }
+        .work-in-progress-title {
+            font-size: 30px;
         }
     }
     
@@ -1153,9 +1385,12 @@
         }
         .add-students {
             margin-bottom: 8px;
+            padding: 4px 8px;
+            font-size: 15px;
         }
         .search-students input {
             width: 100%;
+            font-size: 15px;
         }
         .accordion-student-collapse .accordion-body {
             flex-direction: column;
@@ -1190,10 +1425,15 @@
         }
         .accordion-header .dropdown {
             border-radius: 0 5px 0 0;
-            background: #45dafe;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        .dashboard-body.light-theme .accordion-header .dropdown {
+            background: #45dafe;
+        }
+        .dashboard-body.dark-theme .accordion-header .dropdown {
+            background: #036d86;
         }
         .accordion-student-collapse {
             width: 100%;
@@ -1206,5 +1446,69 @@
             margin-left: 5px;
             height: 30px;
             width: 11px;
+        }
+        .dashboard-body.dark-theme .three-dots {
+            margin-right: 5px;
+            background-size: 100% !important;
+            background-position: center;
+            margin-top: 0;
+            margin-left: 5px;
+            height: 30px;
+            width: 11px;
+        }
+        .self-batch-rename.self-batch-delete {
+            font-size: 14px;
+        }
+        .material-subjects-cards-content {
+            flex-direction: column;
+        }
+        .material-subjects-cards-content .material-subjects {
+            width: 100%;
+            height: auto !important;
+        }
+        .subject-cards-main {
+            height: 60vh;
+            overflow-y: auto;
+        }
+        .work-in-progress-title {
+            font-size: 25px;
+        }
+        .profile-in-student {
+            height: 30px;
+            width: 30px;
+        }
+        .name-and-enrollment {
+            font-size: 15px;
+        }
+        .profile-in-student svg {
+            height: 20px;
+            width: 20px;
+        }
+        .student-head-card {
+            align-items: center;
+        }
+        .accordion-button::after {
+            height: 30px !important;
+            width: 30px !important;
+        }
+        .basic-detail-head {
+            font-size: 15px;
+        }
+        .student-attendance-result-section .nav-pills .nav-link {
+            font-size: 16px;
+        }
+        .dashboard-content {
+            margin-top: 0 !important;
+        }
+        .dashboard-left-navigation {
+            margin-bottom: 15px !important;
+        }
+        .search-icon svg {
+            height: 15px;
+            width: 15px;
+        }
+        .plus-icon {
+            height: 40px;
+            width: 40px;
         }
     }

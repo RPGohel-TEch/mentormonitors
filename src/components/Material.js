@@ -1,6 +1,16 @@
-import React from 'react'
-
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useState } from "react";
 const Material = () => {
+  const [courseData, setcourseData] = useState([]);
+  const getcourseData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/course/`);
+    setcourseData(data?.data?.users);
+  };
+
+  useEffect(() => {
+    getcourseData();
+  }, []);
   return (
     <div className='Material'>
         <div className="material-head">
@@ -22,9 +32,10 @@ const Material = () => {
                 <div className="black-board-head subject-handle-head d-flex justify-content-between align-items-center">
                   <div className="course-selection">
                     <select name="" id="">
-                      <option value="">IMSCIT</option>
-                      <option value="">BCA</option>
-                      <option value="">B.TECH</option>
+                    {courseData &&
+                      courseData?.map((d) => (
+                        <option value={d?.course_name}>{d?.course_name}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="semester-selection">
