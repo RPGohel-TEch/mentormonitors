@@ -6,6 +6,7 @@ const Database = () => {
   const [courseName, setCourseName] = useState("");
   const [courseSem, setCourseSem] = useState("");
   const [courseBatch, setCourseBatch] = useState("");
+  const [subjectData, setsubjectData] = useState([])
   const [subjectName, setSubjectName] = useState("");
   const [courseData, setcourseData] = useState([]);
   const [courseEditId, setCourseEditId] = useState("");
@@ -15,10 +16,16 @@ const Database = () => {
   const getcourseData = async () => {
     const { data } = await axios.get(`http://localhost:8000/course/`);
     setcourseData(data?.data?.users);
+    // console.log("hellos"+ data.data.users[0].course_name)
+  };
+  const getsubjctData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/subject/`);
+    setsubjectData(data?.data?.users);
   };
 
   useEffect(() => {
     getcourseData();
+    getsubjctData();
   }, []);
 
   const courseSubmit = (e) => {
@@ -74,7 +81,7 @@ const Database = () => {
         subject_name: subjectName,
       })
       .then(function (response) {
-        console.log(response);
+        getsubjctData()
       })
       .catch(function (error) {
         console.log(error);
@@ -485,7 +492,9 @@ const Database = () => {
                 </div>
               </div>
               <div className="subject-cards-main d-flex flex-wrap">
-                <div className="subject-card">
+                {subjectData && subjectData?.map((s) => {
+                  return <>
+                    <div className="subject-card">
                   <div className="dropdown">
                     <div
                       className="dropdown-toggle student-three-dots"
@@ -521,7 +530,9 @@ const Database = () => {
                       </li>
                     </ul>
                   </div>
-                  <div className="subject-name">Digital fundamentals</div>
+
+                  <div className="subject-name">{s.subject_name} </div>
+
                   <div className="faculty-assign-part">
                     <select name="" id="">
                       <option value="">Ramesh Vaghela</option>
@@ -529,6 +540,9 @@ const Database = () => {
                     </select>
                   </div>
                 </div>
+                  </>
+                })}
+                
               </div>
               <div
                 className="plus-icon"
@@ -666,6 +680,8 @@ const Database = () => {
                 <input
                   type="submit"
                   className="course-submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   value="Add Course"
                   onClick={(e) => courseSubmit(e)}
                 />
@@ -740,6 +756,8 @@ const Database = () => {
                 <input
                   type="submit"
                   className="course-submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   value="Edit Course"
                   onClick={(e) => courseEdit(e)}
                 />
@@ -831,6 +849,8 @@ const Database = () => {
 
                 <input
                   type="submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   className="course-submit"
                   value="Edit Batch"
                 />
@@ -880,6 +900,8 @@ const Database = () => {
 
                 <input
                   type="submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   className="course-submit"
                   value="Send Invitation"
                 />
@@ -926,6 +948,8 @@ const Database = () => {
 
                 <input
                   type="submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   className="course-submit"
                   value="Add Subject"
                   onClick={(e) => subjectSubmit(e)}
@@ -970,6 +994,8 @@ const Database = () => {
 
                 <input
                   type="submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
                   className="course-submit"
                   value="Edit Subject"
                 />

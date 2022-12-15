@@ -1,18 +1,73 @@
 import React from "react";
-import profileImage from "../images/profile-dash.png"
+import profileImage from "../images/profile-dash.png";
 import Attendance from "./Attendance";
 import Blackboard from "./Blackboard";
 import Database from "./Database";
 import Material from "./Material";
 import Setting from "./Setting";
 import Analysis from "./Analysis";
+import $ from "jquery";
 const Dashboard = () => {
- 
+  const userRecentNavigation = localStorage.getItem("NavActive");
+
+  switch (userRecentNavigation) {
+    case "analysis":
+      console.log("i am no analysis");
+      break;
+    case "db":
+      console.log("i am on db");
+      $("#v-pills-db-tab").addClass("active");
+      $("#v-pills-analysis-tab").removeClass("active");
+      break;
+    case "blackboard":
+      console.log("i am on blackboard");
+      $("#v-pills-blackboard-tab").addClass("active");
+      $("#v-pills-analysis-tab").removeClass("active");
+      break;
+    case "material":
+      console.log("i am no material");
+      $("#v-pills-material-tab").addClass("active");
+      $("#v-pills-analysis-tab").removeClass("active");
+      break;
+    case "attendance":
+      console.log("i am no attendance");
+      $("#v-pills-analysis-tab").removeClass("active");
+      $("#v-pills-attendance-tab").addClass("active");
+      break;
+      case "setting":
+        console.log("i am no setting");
+        $("#v-pills-analysis-tab").removeClass("active");
+        $("#v-pills-setting-tab").addClass("active");
+      break;
+  }
+
+  const navigateSave = () => {
+    if ($("#v-pills-analysis-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "analysis");
+    }
+    if ($("#v-pills-db-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "db");
+    }
+    if ($("#v-pills-blackboard-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "blackboard");
+    }
+    if ($("#v-pills-material-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "material");
+    }
+    if ($("#v-pills-attendance-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "attendance");
+    }
+    if ($("#v-pills-setting-tab").hasClass("active")) {
+      localStorage.setItem("NavActive", "setting");
+    }
+  };
+  // navigateSave()
+
   return (
     <div className="dashboard-body light-theme">
       <div className="dashboard-header d-flex justify-content-between">
         <a href="" className="logo-dashboard light-theme">
-          Mentor Monitor
+          Mentor's Monitor
         </a>
         <div className="profile-dropdown">
           <div className="dropdown">
@@ -38,7 +93,11 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-content mt-4 d-flex">
-        <div className="dashboard-left-navigation light-theme">
+        <div
+          className="dashboard-left-navigation light-theme"
+          id="leftNavigation"
+          onClick={navigateSave}
+        >
           <div
             className="nav flex-column nav-pills "
             id="v-pills-tab"
@@ -233,7 +292,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-analysis-tab"
               tabIndex={0}
             >
-             <Analysis/>
+              <Analysis />
             </div>
             <div
               className="tab-pane fade "
@@ -242,7 +301,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-db-tab"
               tabIndex={0}
             >
-              <Database/>
+              <Database />
             </div>
             <div
               className="tab-pane fade "
@@ -251,7 +310,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-blackboard-tab"
               tabIndex={0}
             >
-              <Blackboard/>
+              <Blackboard />
             </div>
             <div
               className="tab-pane fade "
@@ -260,7 +319,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-material-tab"
               tabIndex={0}
             >
-              <Material/>
+              <Material />
             </div>
             <div
               className="tab-pane fade "
@@ -269,7 +328,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-attendance-tab"
               tabIndex={0}
             >
-              <Attendance/>
+              <Attendance />
             </div>
             <div
               className="tab-pane fade "
@@ -278,7 +337,7 @@ const Dashboard = () => {
               aria-labelledby="v-pills-setting-tab"
               tabIndex={0}
             >
-             <Setting/>
+              <Setting />
             </div>
           </div>
         </div>

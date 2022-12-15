@@ -22,7 +22,7 @@ const Signup = () => {
           <div className="logo-and-nav">
             <div className="header-logo">
               <Link to="/" className="cmn-link Logo-signup header-links">
-                Mentor Moniter
+                Mentor's Moniter
               </Link>
             </div>
             <div className="header-navigation">

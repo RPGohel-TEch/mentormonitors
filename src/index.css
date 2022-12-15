@@ -858,20 +858,29 @@
     }
     
     .dashboard-body.dark-theme .student-attendance-result-section .nav-pills .nav-link.active {
-        background: #005173;
+        background: #036d86;
     }
     
     .dashboard-body.light-theme .student-attendance-result-section .nav-pills .nav-link.active {
-        background: #036d86;
+        background: #005173;
+        border-radius: 40px 0 0 40px !important;
     }
     
     .dashboard-body.dark-theme .student-attendance-result-section .nav-pills .nav-link {
         background: #001e24;
         color: whitesmoke;
+        border-radius: 40px 0 0 40px !important;
     }
     
     .dashboard-body.dark-theme .student-attendance-result-section ul li {
         background: transparent;
+        border-radius: 40px 0 0 40px !important;
+        overflow: hidden;
+    }
+    
+    .dashboard-body.dark-theme .student-attendance-result-section ul li:last-child {
+        background: #001e24 !important;
+        border-radius: 0 !important;
     }
     /* modal css starts from here */
     
