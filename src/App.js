@@ -5,18 +5,14 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Login from "./components/Login";
 import React, { useState } from "react";
-import Protected from "./components/Protected";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  const userId = localStorage.getItem("user");
-
   return (
     <div className="App">
       <Routes>
-        <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
+        <Route exact path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Layout isLogin={isLogin}/>} />
+        <Route path="/dashboard" element={<Layout />} />
       </Routes>
     </div>
   );

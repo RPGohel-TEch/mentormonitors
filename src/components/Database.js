@@ -1,32 +1,58 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 
 const Database = () => {
   const [courseName, setCourseName] = useState("");
   const [courseSem, setCourseSem] = useState("");
   const [courseBatch, setCourseBatch] = useState("");
-  const [subjectData, setsubjectData] = useState([])
+  const [subjectData, setsubjectData] = useState([]);
   const [subjectName, setSubjectName] = useState("");
+  const [subjectSem, setSubjectSem] = useState("1");
+  const [subjectBranch, setSubjectBranch] = useState("it");
+  const [subjectBatch, setSubjectBatch] = useState("a");
+  const [subjectid, setSubjectid] = useState("");
   const [courseData, setcourseData] = useState([]);
   const [courseEditId, setCourseEditId] = useState("");
   const [courseEditName, setcourseEditName] = useState("");
   const [courseEditSem, setcourseEditSem] = useState("");
+  const [facultyName, setFacultyName] = useState("");
+  const [facultyEmail, setFacultyEmail] = useState("");
+  const [facultyContact, setFacultyContact] = useState("");
+  const [facultyData, setFacultyData] = useState([]);
+  const [searchFaculty, setSearchFaculty] = useState("");
 
   const getcourseData = async () => {
     const { data } = await axios.get(`http://localhost:8000/course/`);
     setcourseData(data?.data?.users);
     // console.log("hellos"+ data.data.users[0].course_name)
   };
+
   const getsubjctData = async () => {
     const { data } = await axios.get(`http://localhost:8000/subject/`);
     setsubjectData(data?.data?.users);
   };
 
+  const getfacultyData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/faculty/`);
+    setFacultyData(data?.data?.users);
+  };
+
   useEffect(() => {
     getcourseData();
     getsubjctData();
+    getfacultyData();
   }, []);
+
+  const searchData = useMemo(async () => {
+    if (searchFaculty) {
+      await axios
+        .get(`http://localhost:8000/faculty?search=${searchFaculty}`)
+        .then((response) => setFacultyData(response?.data?.data?.users));
+    } else {
+      return facultyData;
+    }
+  }, [searchFaculty]);
 
   const courseSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +64,44 @@ const Database = () => {
       })
       .then(function (response) {
         getcourseData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const deleteFaculty = (id) => {
+    axios
+      .delete(`http://localhost:8000/faculty/${id}`)
+      .then(function (response) {
+        getfacultyData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const deleteSubject = (id) => {
+    axios
+      .delete(`http://localhost:8000/subject/${id}`)
+      .then(function (response) {
+        getsubjctData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const facultyAddHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8000/faculty/add-faculty", {
+        name: facultyName,
+        email: facultyEmail,
+        mobile: facultyContact,
+      })
+      .then(function (response) {
+        getfacultyData();
       })
       .catch(function (error) {
         console.log(error);
@@ -74,14 +138,43 @@ const Database = () => {
       });
   };
 
+  const handleSemChange = (e) => {
+    setSubjectSem(e.target.value);
+  };
+
+  const handleBrachChange = (e) => {
+    setSubjectBranch(e.target.value);
+  };
+
+  const handleBatchChange = (e) => {
+    setSubjectBatch(e.target.value);
+  };
+
   const subjectSubmit = (e) => {
     e.preventDefault();
     axios
       .post("http://localhost:8000/subject/add-subject", {
         subject_name: subjectName,
+        semester: subjectSem,
+        branch: subjectBranch,
+        batch: subjectBatch,
       })
       .then(function (response) {
-        getsubjctData()
+        getsubjctData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const editSubjectHandler = (e) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:8000/subject/edit-subject/${subjectid}`, {
+        subject_name: subjectName,
+      })
+      .then(function (response) {
+        getsubjctData();
       })
       .catch(function (error) {
         console.log(error);
@@ -255,188 +348,207 @@ const Database = () => {
                       type="search"
                       className="pl-1"
                       placeholder="search faculties"
+                      onChange={(e) => setSearchFaculty(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="black-board-content-main">
                   <div className="accordion" id="accordionExample">
                     <div className="accordion-item student-card">
-                      <h2 className="accordion-header d-flex" id="headingOne">
-                        <div
-                          className="accordion-button student-head-in-black-board"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#student1"
-                          aria-expanded="true"
-                          aria-controls="student1"
-                        >
-                          <div className="student-head-card d-flex w-100">
-                            <div className="profile-in-student">
-                              <svg
-                                width="19"
-                                height="25"
-                                viewBox="0 0 19 25"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <circle
-                                  cx="10.0006"
-                                  cy="6.6"
-                                  r="6.4"
-                                  fill="#005173"
-                                />
-                                <path
-                                  d="M0.400391 20.6C0.400391 17.2863 3.08668 14.6 6.40039 14.6H12.8004C16.1141 14.6 18.8004 17.2863 18.8004 20.6V22.2C18.8004 23.3046 17.905 24.2 16.8004 24.2H2.40039C1.29582 24.2 0.400391 23.3046 0.400391 22.2V20.6Z"
-                                  fill="#005173"
-                                />
-                              </svg>
-                            </div>
-                            <div className="name-and-enrollment d-flex align-items-center justify-content-between">
-                              <div className="student-name">Ramika Sen</div>
-                              <div className="student-enrollment">2457634</div>
-                            </div>
-
-                            <div className="downarrow-in-student"></div>
-                          </div>
-                        </div>
-
-                        <div className="dropdown">
-                          <div
-                            className="dropdown-toggle student-three-dots"
-                            role="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
+                      {facultyData?.map((faculty) => (
+                        <div>
+                          <h2
+                            className="accordion-header d-flex"
+                            id="headingOne"
                           >
-                            <div className="three-dots"></div>
-                          </div>
+                            <div
+                              className="accordion-button student-head-in-black-board"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#student1"
+                              aria-expanded="true"
+                              aria-controls="student1"
+                            >
+                              <div className="student-head-card d-flex w-100">
+                                <div className="profile-in-student">
+                                  <svg
+                                    width="19"
+                                    height="25"
+                                    viewBox="0 0 19 25"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <circle
+                                      cx="10.0006"
+                                      cy="6.6"
+                                      r="6.4"
+                                      fill="#005173"
+                                    />
+                                    <path
+                                      d="M0.400391 20.6C0.400391 17.2863 3.08668 14.6 6.40039 14.6H12.8004C16.1141 14.6 18.8004 17.2863 18.8004 20.6V22.2C18.8004 23.3046 17.905 24.2 16.8004 24.2H2.40039C1.29582 24.2 0.400391 23.3046 0.400391 22.2V20.6Z"
+                                      fill="#005173"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="name-and-enrollment d-flex align-items-center justify-content-between">
+                                  <div className="student-name">
+                                    {faculty?.name}
+                                  </div>
+                                  <div className="student-enrollment">
+                                    {faculty?._id}
+                                  </div>
+                                </div>
+                                <div className="downarrow-in-student"></div>
+                              </div>
+                            </div>
+                            <div className="dropdown">
+                              <div
+                                className="dropdown-toggle student-three-dots"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              >
+                                <div className="three-dots"></div>
+                              </div>
 
-                          <ul className="dropdown-menu ">
-                            <li>
-                              <a
-                                className="dropdown-item"
-                                href="#"
-                                data-toggle="modal"
-                                data-target="#openstudentmodification"
-                              >
-                                edit
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                delete
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Move previous sem
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Move next sem
-                              </a>
-                              <a className="dropdown-item" href="#">
-                                Add Result
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </h2>
-                      <div
-                        id="student1"
-                        className="accordion-collapse collapse show accordion-student-collapse"
-                        aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample"
-                      >
-                        <div className="accordion-body d-flex">
-                          <div className="student-details-section">
-                            <div className="basic-detail-blackboard">
-                              <div className="basic-detail-head">
-                                Basic Details
-                              </div>
-                              <div className="student-info-card">
-                                <b>DOB:</b> 17/04/2003
-                              </div>
-                              <div className="student-info-card">
-                                <b>Phone no:</b> 9989784565
-                              </div>
-                              <div className="student-info-card">
-                                <b>Email:</b> rahul123@gmail.com
-                              </div>
-                              <div className="student-info-card">
-                                <b>Address:</b> A/41 ramrajya nagar, nr. ayodhya
-                                park, nikol, Ahmedabad.
-                              </div>
-                            </div>
-                            <div className="education-detail-blackboard mt-3">
-                              <div className="basic-detail-head">
-                                Education Details
-                              </div>
-                              <div className="student-info-card">
-                                <b>SSC:</b> 65%
-                              </div>
-                              <div className="student-info-card">
-                                <b>HSC:</b> 60%
-                              </div>
-                              <div className="student-info-card">
-                                <b>Graduation:</b> BscIt
-                              </div>
-                            </div>
-                          </div>
-                          <div className="student-attendance-result-section">
-                            <div>
-                              <ul
-                                className="nav nav-pills mb-3"
-                                id="pills-tab"
-                                role="tablist"
-                              >
-                                <li className="nav-item" role="presentation">
-                                  <button
-                                    className="nav-link active"
-                                    id="pills-attendance-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-attendance"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-attendance"
-                                    aria-selected="true"
+                              <ul className="dropdown-menu ">
+                                <li>
+                                  <a
+                                    className="dropdown-item"
+                                    href=""
+                                    data-toggle="modal"
+                                    data-target="#openstudentmodification"
                                   >
-                                    Lectures
-                                  </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                  <button
-                                    className="nav-link"
-                                    id="pills-result-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-result"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-result"
-                                    aria-selected="false"
+                                    edit
+                                  </a>
+                                  <a
+                                    className="dropdown-item"
+                                    onClick={() => deleteFaculty(faculty?._id)}
                                   >
-                                    Students
-                                  </button>
+                                    delete
+                                  </a>
+                                  <a className="dropdown-item" href="#">
+                                    Move previous sem
+                                  </a>
+                                  <a className="dropdown-item" href="#">
+                                    Move next sem
+                                  </a>
+                                  <a className="dropdown-item" href="#">
+                                    Add Result
+                                  </a>
                                 </li>
                               </ul>
-                              <div
-                                className="tab-content"
-                                id="pills-tabContent"
-                              >
-                                <div
-                                  className="tab-pane fade show active"
-                                  id="pills-attendance"
-                                  role="tabpanel"
-                                  aria-labelledby="pills-attendance-tab"
-                                >
-                                  Attendance
+                            </div>
+                          </h2>
+                          <div
+                            id="student1"
+                            className="accordion-collapse collapse show accordion-student-collapse"
+                            aria-labelledby="headingOne"
+                            data-bs-parent="#accordionExample"
+                          >
+                            <div className="accordion-body d-flex">
+                              <div className="student-details-section">
+                                <div className="basic-detail-blackboard">
+                                  <div className="basic-detail-head">
+                                    Basic Details
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>DOB:</b> 17/04/2003
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>Phone no:</b> 9989784565
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>Email:</b> rahul123@gmail.com
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>Address:</b> A/41 ramrajya nagar, nr.
+                                    ayodhya park, nikol, Ahmedabad.
+                                  </div>
                                 </div>
-                                <div
-                                  className="tab-pane fade"
-                                  id="pills-result"
-                                  role="tabpanel"
-                                  aria-labelledby="pills-result-tab"
-                                >
-                                  Result
+                                <div className="education-detail-blackboard mt-3">
+                                  <div className="basic-detail-head">
+                                    Education Details
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>SSC:</b> 65%
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>HSC:</b> 60%
+                                  </div>
+                                  <div className="student-info-card">
+                                    <b>Graduation:</b> BscIt
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="student-attendance-result-section">
+                                <div>
+                                  <ul
+                                    className="nav nav-pills mb-3"
+                                    id="pills-tab"
+                                    role="tablist"
+                                  >
+                                    <li
+                                      className="nav-item"
+                                      role="presentation"
+                                    >
+                                      <button
+                                        className="nav-link active"
+                                        id="pills-attendance-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-attendance"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-attendance"
+                                        aria-selected="true"
+                                      >
+                                        Lectures
+                                      </button>
+                                    </li>
+                                    <li
+                                      className="nav-item"
+                                      role="presentation"
+                                    >
+                                      <button
+                                        className="nav-link"
+                                        id="pills-result-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-result"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-result"
+                                        aria-selected="false"
+                                      >
+                                        Students
+                                      </button>
+                                    </li>
+                                  </ul>
+                                  <div
+                                    className="tab-content"
+                                    id="pills-tabContent"
+                                  >
+                                    <div
+                                      className="tab-pane fade show active"
+                                      id="pills-attendance"
+                                      role="tabpanel"
+                                      aria-labelledby="pills-attendance-tab"
+                                    >
+                                      Attendance
+                                    </div>
+                                    <div
+                                      className="tab-pane fade"
+                                      id="pills-result"
+                                      role="tabpanel"
+                                      aria-labelledby="pills-result-tab"
+                                    >
+                                      Result
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -453,7 +565,11 @@ const Database = () => {
             <div className="subject-component">
               <div className="black-board-head subject-handle-head d-flex justify-content-between align-items-center">
                 <div className="course-selection">
-                  <select name="" id="">
+                  <select
+                    name="branch"
+                    id="branch"
+                    onChange={handleBrachChange}
+                  >
                     {courseData &&
                       courseData?.map((d) => (
                         <option value={d?.course_name}>{d?.course_name}</option>
@@ -461,17 +577,17 @@ const Database = () => {
                   </select>
                 </div>
                 <div className="semester-selection">
-                  <select name="" id="">
-                    <option value="">Sem 1st</option>
-                    <option value="">Sem 2nd</option>
-                    <option value="">Sem 3rd</option>
+                  <select name="semester" id="sem" onChange={handleSemChange}>
+                    <option value="1">Sem 1st</option>
+                    <option value="2">Sem 2nd</option>
+                    <option value="3">Sem 3rd</option>
                   </select>
                 </div>
                 <div className="batch-selection">
-                  <select name="" id="">
-                    <option value="">Batch A</option>
-                    <option value="">Batch B</option>
-                    <option value="">Batch c</option>
+                  <select name="" id="" onChange={handleBatchChange}>
+                    <option value="a">Batch A</option>
+                    <option value="b">Batch B</option>
+                    <option value="c">Batch c</option>
                   </select>
                 </div>
               </div>
@@ -492,57 +608,70 @@ const Database = () => {
                 </div>
               </div>
               <div className="subject-cards-main d-flex flex-wrap">
-                {subjectData && subjectData?.map((s) => {
-                  return <>
-                    <div className="subject-card">
-                  <div className="dropdown">
-                    <div
-                      className="dropdown-toggle student-three-dots"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <div className="three-dots-in-subjects">
-                        <div className="dot-subject"></div>
-                        <div className="dot-subject"></div>
-                        <div className="dot-subject"></div>
-                      </div>
-                    </div>
+                {subjectData &&
+                  subjectData
+                    .filter(
+                      (data) =>
+                        data?.branch === subjectBranch &&
+                        data?.semester === subjectSem &&
+                        data?.batch === subjectBatch
+                    )
+                    .map((s) => {
+                      return (
+                        <>
+                          <div className="subject-card">
+                            <div className="dropdown">
+                              <div
+                                className="dropdown-toggle student-three-dots"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              >
+                                <div className="three-dots-in-subjects">
+                                  <div className="dot-subject"></div>
+                                  <div className="dot-subject"></div>
+                                  <div className="dot-subject"></div>
+                                </div>
+                              </div>
 
-                    <ul className="dropdown-menu ">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#editSubject"
-                        >
-                          Edit
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          data-toggle="modal"
-                          data-target="#deleteConfirmation"
-                        >
-                          Delete
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                              <ul className="dropdown-menu ">
+                                <li>
+                                  <a
+                                    className="dropdown-item"
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#editSubject"
+                                    onClick ={() => {setSubjectName(s.subject_name); setSubjectid(s?._id)}}
+                                  >
+                                    Edit
+                                  </a>
+                                  <a
+                                    className="dropdown-item"
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#deleteConfirmation"
+                                    onClick={() => setSubjectid(s?._id)}
+                                  >
+                                    Delete
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
 
-                  <div className="subject-name">{s.subject_name} </div>
+                            <div className="subject-name">
+                              {s.subject_name}{" "}
+                            </div>
 
-                  <div className="faculty-assign-part">
-                    <select name="" id="">
-                      <option value="">Ramesh Vaghela</option>
-                      <option value="">Ramika Sen</option>
-                    </select>
-                  </div>
-                </div>
-                  </>
-                })}
-                
+                            <div className="faculty-assign-part">
+                              <select name="" id="">
+                                <option value="">Ramesh Vaghela</option>
+                                <option value="">Ramika Sen</option>
+                              </select>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
               </div>
               <div
                 className="plus-icon"
@@ -799,9 +928,7 @@ const Database = () => {
                 <label htmlFor="">Batch Name:</label>
                 <input type="text" />
                 <br />
-
                 <br />
-
                 <input
                   type="submit"
                   className="course-submit"
@@ -844,9 +971,7 @@ const Database = () => {
                 <label htmlFor="">Batch Name:</label>
                 <input type="text" value="Batch A" />
                 <br />
-
                 <br />
-
                 <input
                   type="submit"
                   data-dismiss="modal"
@@ -889,21 +1014,30 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Faculty Name:</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={(e) => setFacultyName(e.target.value)}
+                />
                 <br />
                 <label htmlFor="">Email Id: </label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={(e) => setFacultyEmail(e.target.value)}
+                />
                 <br />
                 <label htmlFor="">Contact No:</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={(e) => setFacultyContact(e.target.value)}
+                />
                 <br />
-
                 <input
                   type="submit"
                   data-dismiss="modal"
                   aria-label="Close"
                   className="course-submit"
                   value="Send Invitation"
+                  onClick={(e) => facultyAddHandler(e)}
                 />
               </form>
             </div>
@@ -989,7 +1123,7 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Subject Name:</label>
-                <input type="text" value="Digital Fundamentals" />
+                <input type="text" value={subjectName} onChange={(e) => setSubjectName(e.target.value)}/>
                 <br />
 
                 <input
@@ -998,6 +1132,7 @@ const Database = () => {
                   aria-label="Close"
                   className="course-submit"
                   value="Edit Subject"
+                  onClick={(e) => editSubjectHandler(e)}
                 />
               </form>
             </div>
@@ -1048,7 +1183,7 @@ const Database = () => {
                 >
                   Cancel
                 </div>
-                <div className="delete-object"> Delete</div>
+                <div className="delete-object"  onClick={() => deleteSubject(subjectid)}> Delete</div>
               </div>
             </div>
           </div>

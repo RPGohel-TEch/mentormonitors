@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({setIsLogin}) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState([]);
@@ -13,17 +13,13 @@ const Login = ({setIsLogin}) => {
     const data = { email: email, password: password };
     axios
       .post("http://localhost:8000/admin/login", data)
-      .then((response) => setUserData(response));
+      .then((response) => setUserData(response.data));
   };
-
-  if (userData?.data?.code === 200) {
+  if (userData?.code === 200) {
     navigate("/dashboard");
-    localStorage.setItem('user', JSON.stringify(userData.data.data));
-    setIsLogin(true);
   }
-
-  if (userData?.status === 500) {
-    window.alert("Incorrect password")
+  if(userData?.data?.admin){
+    localStorage.setItem("user", JSON.stringify(userData?.data?.admin));
   }
 
   return (
@@ -84,7 +80,6 @@ const Login = ({setIsLogin}) => {
           </div>
 
           <div className="signup-btn-section" onClick={(e) => loginEvent(e)}>
-            {" "}
             Log in
           </div>
         </form>

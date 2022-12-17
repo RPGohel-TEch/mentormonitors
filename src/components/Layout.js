@@ -3,10 +3,10 @@ import React from "react";
 import Dashboard from "./Dashboard";
 import Protected from "./Protected";
 
-const Layout = ({isLogin}) => {
+const Layout = () => {
   return (
     <div>
-      <Protected isLogin={isLogin}>
+      <Protected>
         <Dashboard />
       </Protected>
     </div>

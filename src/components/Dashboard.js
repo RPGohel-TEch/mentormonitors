@@ -34,10 +34,10 @@ const Dashboard = () => {
       $("#v-pills-analysis-tab").removeClass("active");
       $("#v-pills-attendance-tab").addClass("active");
       break;
-      case "setting":
-        console.log("i am no setting");
-        $("#v-pills-analysis-tab").removeClass("active");
-        $("#v-pills-setting-tab").addClass("active");
+    case "setting":
+      console.log("i am no setting");
+      $("#v-pills-analysis-tab").removeClass("active");
+      $("#v-pills-setting-tab").addClass("active");
       break;
   }
 
@@ -83,7 +83,13 @@ const Dashboard = () => {
 
             <ul className="dropdown-menu profile-dropdown-menu">
               <li>
-                <a className="dropdown-item" href="#">
+                <a
+                  className="dropdown-item"
+                  href=""
+                  onClick={() => {
+                    localStorage.removeItem("user");
+                  }}
+                >
                   Logout
                 </a>
               </li>
