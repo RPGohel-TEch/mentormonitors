@@ -8,6 +8,8 @@ const Login = () => {
   const [userData, setUserData] = useState([]);
   const navigate = useNavigate();
 
+  console.log(userData,"....")
+
   const loginEvent = (e) => {
     e.preventDefault();
     const data = { email: email, password: password };
@@ -20,6 +22,9 @@ const Login = () => {
   }
   if(userData?.data?.admin){
     localStorage.setItem("user", JSON.stringify(userData?.data?.admin));
+  }
+  if(userData?.data?.faculty){
+    localStorage.setItem("user", JSON.stringify(userData?.data?.faculty));
   }
 
   return (

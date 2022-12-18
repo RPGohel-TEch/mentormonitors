@@ -6,19 +6,20 @@ const Database = () => {
   const [courseName, setCourseName] = useState("");
   const [courseSem, setCourseSem] = useState("");
   const [courseBatch, setCourseBatch] = useState("");
+  const [courseData, setcourseData] = useState([]);
+  const [courseEditId, setCourseEditId] = useState("");
+  const [courseEditName, setcourseEditName] = useState("");
+  const [courseEditSem, setcourseEditSem] = useState("");
   const [subjectData, setsubjectData] = useState([]);
   const [subjectName, setSubjectName] = useState("");
   const [subjectSem, setSubjectSem] = useState("1");
   const [subjectBranch, setSubjectBranch] = useState("it");
   const [subjectBatch, setSubjectBatch] = useState("a");
   const [subjectid, setSubjectid] = useState("");
-  const [courseData, setcourseData] = useState([]);
-  const [courseEditId, setCourseEditId] = useState("");
-  const [courseEditName, setcourseEditName] = useState("");
-  const [courseEditSem, setcourseEditSem] = useState("");
   const [facultyName, setFacultyName] = useState("");
   const [facultyEmail, setFacultyEmail] = useState("");
-  const [facultyContact, setFacultyContact] = useState("");
+  const [facultyEnrollNo, setFacultyEnrollNo] = useState("");
+  const [facultyPassword, setFacultyPassword] = useState("");
   const [facultyData, setFacultyData] = useState([]);
   const [searchFaculty, setSearchFaculty] = useState("");
 
@@ -98,7 +99,8 @@ const Database = () => {
       .post("http://localhost:8000/faculty/add-faculty", {
         name: facultyName,
         email: facultyEmail,
-        mobile: facultyContact,
+        enrollment_no: facultyEnrollNo,
+        password: facultyPassword,
       })
       .then(function (response) {
         getfacultyData();
@@ -149,6 +151,22 @@ const Database = () => {
   const handleBatchChange = (e) => {
     setSubjectBatch(e.target.value);
   };
+
+  const semDropdown = useMemo(() => {
+    if (subjectBranch) {
+      const semester = courseData
+        ?.filter((data) => data?.course_name === subjectBranch)
+        .map((data) => {
+          return data?.semester;
+        });
+      const semArray = Array.from(
+        { length: semester.toString() },
+        (_, i) => i + 1
+      );
+      return semArray;
+    }
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }, [subjectBranch]);
 
   const subjectSubmit = (e) => {
     e.preventDefault();
@@ -394,7 +412,7 @@ const Database = () => {
                                     {faculty?.name}
                                   </div>
                                   <div className="student-enrollment">
-                                    {faculty?._id}
+                                    {faculty?.enrollment_no}
                                   </div>
                                 </div>
                                 <div className="downarrow-in-student"></div>
@@ -578,9 +596,11 @@ const Database = () => {
                 </div>
                 <div className="semester-selection">
                   <select name="semester" id="sem" onChange={handleSemChange}>
-                    <option value="1">Sem 1st</option>
-                    <option value="2">Sem 2nd</option>
-                    <option value="3">Sem 3rd</option>
+                    {semDropdown &&
+                      semDropdown.length &&
+                      semDropdown.map((data) => (
+                        <option value={data}>Sem {data}</option>
+                      ))}
                   </select>
                 </div>
                 <div className="batch-selection">
@@ -641,7 +661,10 @@ const Database = () => {
                                     href="#"
                                     data-toggle="modal"
                                     data-target="#editSubject"
-                                    onClick ={() => {setSubjectName(s.subject_name); setSubjectid(s?._id)}}
+                                    onClick={() => {
+                                      setSubjectName(s.subject_name);
+                                      setSubjectid(s?._id);
+                                    }}
                                   >
                                     Edit
                                   </a>
@@ -1025,10 +1048,16 @@ const Database = () => {
                   onChange={(e) => setFacultyEmail(e.target.value)}
                 />
                 <br />
-                <label htmlFor="">Contact No:</label>
+                <label htmlFor="">EnrollMent No: </label>
                 <input
                   type="text"
-                  onChange={(e) => setFacultyContact(e.target.value)}
+                  onChange={(e) => setFacultyEnrollNo(e.target.value)}
+                />
+                <br />
+                <label htmlFor="">Password: </label>
+                <input
+                  type="text"
+                  onChange={(e) => setFacultyPassword(e.target.value)}
                 />
                 <br />
                 <input
@@ -1123,7 +1152,11 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Subject Name:</label>
-                <input type="text" value={subjectName} onChange={(e) => setSubjectName(e.target.value)}/>
+                <input
+                  type="text"
+                  value={subjectName}
+                  onChange={(e) => setSubjectName(e.target.value)}
+                />
                 <br />
 
                 <input
@@ -1183,7 +1216,13 @@ const Database = () => {
                 >
                   Cancel
                 </div>
-                <div className="delete-object"  onClick={() => deleteSubject(subjectid)}> Delete</div>
+                <div
+                  className="delete-object"
+                  onClick={() => deleteSubject(subjectid)}
+                >
+                  {" "}
+                  Delete
+                </div>
               </div>
             </div>
           </div>
