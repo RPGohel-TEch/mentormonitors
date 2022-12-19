@@ -6,14 +6,7 @@ import $ from "jquery";
 const Blackboard = () => {
   const user = localStorage.getItem("user");
   const userRole = JSON.parse(user).role;
-  function checkRole() {
-    if (userRole == "admin") {
-      return "admin";
-    }
-    else if(userRole == "faculty"){
-      return "faculty"
-    }
-  }
+ 
 
   const [courseData, setcourseData] = useState([]);
   const getcourseData = async () => {
@@ -61,7 +54,7 @@ const Blackboard = () => {
 
       <div className="black-board-content p-2">
         <div className="black-board-content-top-section d-flex align-items-center justify-content-between ">
-          {checkRole() == "admin" ? (
+          {userRole== "admin" ? (
             <div className="add-students">+ Add student</div>
           ) : (
             ""
@@ -126,7 +119,7 @@ const Blackboard = () => {
                     <div className="downarrow-in-student"></div>
                   </div>
                 </div>
-                {checkRole() == "admin" ? (
+                {userRole == "admin" ? (
                   <>
                     <>
                       <div className="dropdown">

@@ -12,11 +12,7 @@ const Dashboard = () => {
   const user = localStorage.getItem("user");
   const userRole = JSON.parse(user).role;
   // console.log("I am user::: "+userRole)
-  function checkRole() {
-    if (userRole == "admin") {
-      return "admin";
-    }
-  }
+  
   switch (userRecentNavigation) {
     case "analysis":
       console.log("i am no analysis");
@@ -151,7 +147,7 @@ const Dashboard = () => {
               </div>
             </button>
 
-            {checkRole() == "admin" ? (
+            {userRole == "admin" ? (
               <>
                 {/* db button */}
                 <button
