@@ -3,6 +3,8 @@ import profileImage from "../images/profile-dash.png";
 import $ from "jquery";
 
 const Setting = () => {
+  const getuser = localStorage.getItem("user");
+  const user = JSON.parse(getuser);
   
   
 
@@ -50,8 +52,9 @@ const Setting = () => {
             <div className="setting-profile-image">
               <img src={profileImage} alt="" />
             </div>
-            <div className="setting-profile-name ">Rahul P. Gohel</div>
-            <div className="edit-icon">
+            <div className="setting-profile-name ">{user?.first_name || " Unknown "}</div>
+            <div className="edit-icon" data-toggle="modal"
+                data-target="#editProfile">
               <svg
                 width="19"
                 height="19"
@@ -84,19 +87,19 @@ const Setting = () => {
               <ul>
                 <li>
                   {" "}
-                  <b>Date:</b> 17/04/2003{" "}
+                  <b>Date:</b>{user?.birthdate || " - " }{" "}
                 </li>
                 <li>
                   {" "}
-                  <b>Phone no:</b> 9978457869{" "}
+                  <b>Phone no:</b> {user?.mobile || " - "}{" "}
                 </li>
                 <li>
                   {" "}
-                  <b>Email:</b> rahul123@gmail.com{" "}
+                  <b>Email:</b> {user?.email || " - " }{" "}
                 </li>
                 <li>
                   {" "}
-                  <b>Address:</b> B/21 krishna park, nr gokul,nikol, ahmedabad.
+                  <b>Address:</b> {user?.address || " - "}
                 </li>
               </ul>
             </div>
@@ -107,15 +110,15 @@ const Setting = () => {
               <ul>
                 <li>
                   {" "}
-                  <b>SSC Marks:</b> 65%{" "}
+                  <b>SSC Marks:</b> {user?.ssc_marks || " - "}{" "}
                 </li>
                 <li>
                   {" "}
-                  <b>HSC Marks:</b> 60%{" "}
+                  <b>HSC Marks:</b> {user?.hsc_marks}{" - "}
                 </li>
                 <li>
                   {" "}
-                  <b>Graduation</b> BSCIT{" "}
+                  <b>Graduation</b> {user?.graduation || " - "}{" "}
                 </li>
               </ul>
             </div>
@@ -150,7 +153,85 @@ const Setting = () => {
           </div>
         </div>
       </div>
+      {/* all modals starts from here  */}
+       {/* this modal edit profile */}
+       <div
+        className="modal fade"
+        id="editProfile"
+        tabIndex={-1}
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content custom-modal-content">
+            <div className="modal-header custom-modal-header">
+              <h5
+                className="modal-title custom-modal-title"
+                id="exampleModalLabel"
+              >
+                Edit Profile
+              </h5>
+              <button
+                type="button"
+                className="close model-close-custom"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body custom-modal-body">
+              <form className="student-detail-edit-form" action="">
+                <label htmlFor="profilePicture">Profile Picture :</label>
+                <input type="file" name="" id="profilePicture" />
+                <br />
+                <br />
+
+                <label htmlFor="dob-profile">DOB : </label>
+                <input type="date" id="dob-profile" />
+                <br />
+                <br />
+                <label htmlFor="phone-no">Phone no :</label>
+                <input type="text" id="phone-no" />
+                <br />
+                <br />
+                <label htmlFor="email-profile">Email :</label>
+                <input type="text" id="email-profile" />
+                <br />
+                <br />
+                <label htmlFor="addressprofile">Address :</label>
+                <textarea name="" id="addressprofile"></textarea>
+                <br />
+                <br />
+                <label htmlFor="sscmarks">SSC Marks :</label>
+                <input type="text" id="sscmarks" />
+                <br />
+                <br />
+                <label htmlFor="hscmarks">HSC Marks :</label>
+                <input type="text" id="hscmarks" />
+                <br />
+                <br />
+                <label htmlFor="graduation">Graduation :</label>
+                <input type="text" id="graduation" />
+                <br />
+                <br />
+
+                <input
+                  type="submit"
+                  className="course-submit"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  value="Edit Profile"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    
   );
 };
 

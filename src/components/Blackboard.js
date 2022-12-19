@@ -4,30 +4,43 @@ import React, { useEffect, useState } from "react";
 import $ from "jquery";
 
 const Blackboard = () => {
+  const user = localStorage.getItem("user");
+  const userRole = JSON.parse(user).role;
+  function checkRole() {
+    if (userRole == "admin") {
+      return "admin";
+    }
+    else if(userRole == "faculty"){
+      return "faculty"
+    }
+  }
+
   const [courseData, setcourseData] = useState([]);
   const getcourseData = async () => {
     const { data } = await axios.get(`http://localhost:8000/course/`);
     setcourseData(data?.data?.users);
   };
-  
+
   useEffect(() => {
     getcourseData();
   }, []);
 
-  function selectedCourse(){
-    console.log($('#selectcourse-blackboard').val())
+  function selectedCourse() {
+    console.log($("#selectcourse-blackboard").val());
   }
   return (
     <div className="Blackboard">
-      
       <div className="black-board-head d-flex justify-content-between align-items-center">
         <div className="course-selection">
-          <select name="" id="selectcourse-blackboard" onChange={selectedCourse}>
-          {courseData && courseData?.map((d)=>(
-
-            <option value={d?.course_name} >{d?.course_name}</option>
-           
-            ))}
+          <select
+            name=""
+            id="selectcourse-blackboard"
+            onChange={selectedCourse}
+          >
+            {courseData &&
+              courseData?.map((d) => (
+                <option value={d?.course_name}>{d?.course_name}</option>
+              ))}
           </select>
         </div>
         <div className="semester-selection">
@@ -35,7 +48,6 @@ const Blackboard = () => {
             <option value="">sem 1</option>
             <option value="">sem 2</option>
             <option value="">sem 3</option>
-            
           </select>
         </div>
         <div className="batch-selection">
@@ -46,10 +58,15 @@ const Blackboard = () => {
           </select>
         </div>
       </div>
-      
+
       <div className="black-board-content p-2">
         <div className="black-board-content-top-section d-flex align-items-center justify-content-between ">
-          <div className="add-students">+ Add student</div>
+          {checkRole() == "admin" ? (
+            <div className="add-students">+ Add student</div>
+          ) : (
+            ""
+          )}
+
           <div className="search-students d-flex">
             <div className="search-icon">
               <svg
@@ -103,46 +120,55 @@ const Blackboard = () => {
                     </div>
                     <div className="name-and-enrollment d-flex align-items-center justify-content-between">
                       <div className="student-name">Gohel Rahul Pareshbhai</div>
-                      <div className="student-enrollment">200405021019</div>
+                      <div className="student-enrollment">200405021019 00</div>
                     </div>
-                    
 
-                      <div className="downarrow-in-student"></div>
-                 
-
+                    <div className="downarrow-in-student"></div>
                   </div>
                 </div>
+                {checkRole() == "admin" ? (
+                  <>
+                    <>
+                      <div className="dropdown">
+                        <div
+                          className="dropdown-toggle student-three-dots"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <div className="three-dots"></div>
+                        </div>
 
-                <div className="dropdown">
-                  <div
-                    className="dropdown-toggle student-three-dots"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <div className="three-dots"></div>
-                  </div>
-
-                  <ul className="dropdown-menu ">
-                    <li>
-                      <a className="dropdown-item" href="#" data-toggle="modal" data-target="#openstudentmodification">
-                        edit
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        delete
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Move previous sem
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Move next sem 
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Add Result 
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                        <ul className="dropdown-menu ">
+                          <li>
+                            <a
+                              className="dropdown-item"
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#openstudentmodification"
+                            >
+                              edit
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              delete
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              Move previous sem
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              Move next sem
+                            </a>
+                            <a className="dropdown-item" href="#">
+                              Add Result
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </>
+                  </>
+                ) : (
+                  ""
+                )}
               </h2>
               <div
                 id="student1"
@@ -216,7 +242,6 @@ const Blackboard = () => {
                             Result
                           </button>
                         </li>
-                        
                       </ul>
                       <div className="tab-content" id="pills-tabContent">
                         <div
@@ -225,7 +250,7 @@ const Blackboard = () => {
                           role="tabpanel"
                           aria-labelledby="pills-attendance-tab"
                         >
-                         Attendance
+                          Attendance
                         </div>
                         <div
                           className="tab-pane fade"
@@ -235,7 +260,6 @@ const Blackboard = () => {
                         >
                           Result
                         </div>
-                        
                       </div>
                     </div>
                   </div>
@@ -1466,56 +1490,71 @@ const Blackboard = () => {
                 </div>
               </div>
             </div> */}
-           
-           
 
-
-<div className="modal fade" id="openstudentmodification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog modal-dialog-centered" role="document">
-    <div className="modal-content custom-modal-content">
-      <div className="modal-header custom-modal-header">
-        <h5 className="modal-title custom-modal-title" id="exampleModalLabel">Edit Student</h5>
-        <button type="button" className="close model-close-custom" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div className="modal-body custom-modal-body">
-        <form className="student-detail-edit-form" action="">
-          <div className="form-heading">
-            Basic details 
-          </div>
-          <label htmlFor="">DOB</label>
-          <input type="date" max="current"/>
-          <br />
-          <label htmlFor="">Phone no </label>
-          <input type="text" />
-          <br />
-          <label htmlFor="">Email </label>
-          <input type="text" />
-          <br />
-          <label htmlFor="">Address </label>
-          <input type="text" />
-          <br />
-          <div className="form-heading">
-            Education details 
-          </div>
-          <label htmlFor="">SSC</label>
-          <input type="number" max="100" min="0"step="5" />
-          <br />
-          <label htmlFor=""> HSC </label>
-          <input type="text" max="100" min="0"step="5" />
-          <br />
-          <label htmlFor="">Graduation </label>
-          <input type="text" max="10" min="0"step="1" />
-          <br />
-          <input type="submit" className="course-submit" value="Edit" />
-
-        </form>
-      </div>
-      
-    </div>
-  </div>
-</div>
+            <div
+              className="modal fade"
+              id="openstudentmodification"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div
+                className="modal-dialog modal-dialog-centered"
+                role="document"
+              >
+                <div className="modal-content custom-modal-content">
+                  <div className="modal-header custom-modal-header">
+                    <h5
+                      className="modal-title custom-modal-title"
+                      id="exampleModalLabel"
+                    >
+                      Edit Student
+                    </h5>
+                    <button
+                      type="button"
+                      className="close model-close-custom"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body custom-modal-body">
+                    <form className="student-detail-edit-form" action="">
+                      <div className="form-heading">Basic details</div>
+                      <label htmlFor="">DOB</label>
+                      <input type="date" max="current" />
+                      <br />
+                      <label htmlFor="">Phone no </label>
+                      <input type="text" />
+                      <br />
+                      <label htmlFor="">Email </label>
+                      <input type="text" />
+                      <br />
+                      <label htmlFor="">Address </label>
+                      <input type="text" />
+                      <br />
+                      <div className="form-heading">Education details</div>
+                      <label htmlFor="">SSC</label>
+                      <input type="number" max="100" min="0" step="5" />
+                      <br />
+                      <label htmlFor=""> HSC </label>
+                      <input type="text" max="100" min="0" step="5" />
+                      <br />
+                      <label htmlFor="">Graduation </label>
+                      <input type="text" max="10" min="0" step="1" />
+                      <br />
+                      <input
+                        type="submit"
+                        className="course-submit"
+                        value="Edit"
+                      />
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

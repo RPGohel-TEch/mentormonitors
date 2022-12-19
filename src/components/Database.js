@@ -372,8 +372,8 @@ const Database = () => {
                 </div>
                 <div className="black-board-content-main">
                   <div className="accordion" id="accordionExample">
-                    <div className="accordion-item student-card">
                       {facultyData?.map((faculty) => (
+                    <div className="accordion-item student-card">
                         <div>
                           <h2
                             className="accordion-header d-flex"
@@ -470,17 +470,17 @@ const Database = () => {
                                     Basic Details
                                   </div>
                                   <div className="student-info-card">
-                                    <b>DOB:</b> 17/04/2003
+                                    <b>DOB:</b> {faculty?.birthdate || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Phone no:</b> 9989784565
+                                    <b>Phone no:</b> {faculty?.mobile || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Email:</b> rahul123@gmail.com
+                                    <b>Email:</b>
+                                    {faculty?.email || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Address:</b> A/41 ramrajya nagar, nr.
-                                    ayodhya park, nikol, Ahmedabad.
+                                    <b>Address:</b> {faculty?.address || " - "}
                                   </div>
                                 </div>
                                 <div className="education-detail-blackboard mt-3">
@@ -488,13 +488,14 @@ const Database = () => {
                                     Education Details
                                   </div>
                                   <div className="student-info-card">
-                                    <b>SSC:</b> 65%
+                                    <b>SSC:</b> {faculty?.ssc_marks || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>HSC:</b> 60%
+                                    <b>HSC:</b> {faculty?.hsc_marks || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Graduation:</b> BscIt
+                                    <b>Graduation:</b>{" "}
+                                    {faculty?.graduation || " - "}
                                   </div>
                                 </div>
                               </div>
@@ -566,8 +567,8 @@ const Database = () => {
                             </div>
                           </div>
                         </div>
-                      ))}
                     </div>
+                      ))}
                   </div>
                 </div>
               </div>
@@ -707,6 +708,7 @@ const Database = () => {
       </div>
 
       {/* all modal starts from here */}
+     
       {/* this model edit the faculty  */}
       <div
         className="modal fade"
@@ -952,6 +954,14 @@ const Database = () => {
                 <input type="text" />
                 <br />
                 <br />
+                <label htmlFor="batchsem">Select Semester :</label>
+                <select name="" id="batchsem">
+                  <option value="">sem 1</option>
+                  <option value="">sem 2</option>
+                  <option value="">sem 3</option>
+                </select>
+                <br />
+                <br />
                 <input
                   type="submit"
                   className="course-submit"
@@ -1048,16 +1058,16 @@ const Database = () => {
                   onChange={(e) => setFacultyEmail(e.target.value)}
                 />
                 <br />
+                <label htmlFor="">Password: </label>
+                <input
+                  type="password"
+                  onChange={(e) => setFacultyPassword(e.target.value)}
+                />
+                <br />
                 <label htmlFor="">EnrollMent No: </label>
                 <input
                   type="text"
                   onChange={(e) => setFacultyEnrollNo(e.target.value)}
-                />
-                <br />
-                <label htmlFor="">Password: </label>
-                <input
-                  type="text"
-                  onChange={(e) => setFacultyPassword(e.target.value)}
                 />
                 <br />
                 <input
@@ -1065,7 +1075,7 @@ const Database = () => {
                   data-dismiss="modal"
                   aria-label="Close"
                   className="course-submit"
-                  value="Send Invitation"
+                  value="Add Faculty"
                   onClick={(e) => facultyAddHandler(e)}
                 />
               </form>
