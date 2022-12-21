@@ -16,11 +16,13 @@ const Database = () => {
   const [subjectBranch, setSubjectBranch] = useState("it");
   const [subjectBatch, setSubjectBatch] = useState("a");
   const [subjectid, setSubjectid] = useState("");
+  const [semBatch, setSemBatch] = useState("");
   const [facultyName, setFacultyName] = useState("");
   const [facultyEmail, setFacultyEmail] = useState("");
   const [facultyEnrollNo, setFacultyEnrollNo] = useState("");
   const [facultyPassword, setFacultyPassword] = useState("");
   const [facultyData, setFacultyData] = useState([]);
+  const [batchData, setBatchData] = useState([]);
   const [searchFaculty, setSearchFaculty] = useState("");
 
   const getcourseData = async () => {
@@ -39,11 +41,10 @@ const Database = () => {
     setFacultyData(data?.data?.users);
   };
 
-  useEffect(() => {
-    getcourseData();
-    getsubjctData();
-    getfacultyData();
-  }, []);
+  const getbatchData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/batch/`);
+    setBatchData(data?.data?.users);
+  };
 
   const searchData = useMemo(async () => {
     if (searchFaculty) {
@@ -132,6 +133,19 @@ const Database = () => {
       });
   };
 
+  const addBatchHandler = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:8000/batch/add-batch`, {
+        batch: semBatch,
+        semester: subjectSem,
+        branch: subjectBranch,
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const deleteCourse = (id) => {
     axios
       .delete(`http://localhost:8000/course/delete-course/${id}`)
@@ -153,20 +167,33 @@ const Database = () => {
   };
 
   const semDropdown = useMemo(() => {
-    if (subjectBranch) {
-      const semester = courseData
-        ?.filter((data) => data?.course_name === subjectBranch)
-        .map((data) => {
-          return data?.semester;
-        });
-      const semArray = Array.from(
-        { length: semester.toString() },
-        (_, i) => i + 1
-      );
-      return semArray;
-    }
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const semester = courseData
+      ?.filter((data) => data?.course_name === subjectBranch)
+      .map((data) => {
+        return data?.semester;
+      });
+    const semArray = Array.from(
+      { length: semester.toString() },
+      (_, i) => i + 1
+    );
+    return semArray;
   }, [subjectBranch]);
+
+  const semArrayData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const batchDropdown = useMemo(() => {
+    if (subjectSem && subjectBranch) {
+      const batch = batchData
+        ?.filter(
+          (data) =>
+            data?.branch === subjectBranch && data?.semester === subjectSem
+        )
+        .map((data) => {
+          return data?.batch.toUpperCase();
+        });
+      return batch;
+    }
+  }, [subjectSem, subjectBranch]);
 
   const subjectSubmit = (e) => {
     e.preventDefault();
@@ -198,6 +225,13 @@ const Database = () => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    getcourseData();
+    getsubjctData();
+    getfacultyData();
+    getbatchData();
+  }, []);
 
   return (
     <div className="Database">
@@ -309,9 +343,13 @@ const Database = () => {
                             </a>
                             <a
                               className="dropdown-item"
-                              href="#"
+                              href=""
                               data-toggle="modal"
                               data-target="#addBatch"
+                              onClick={() => {
+                                setSubjectBranch(d?.course_name);
+                                setCourseEditId(d._id);
+                              }}
                             >
                               Add batch
                             </a>
@@ -372,8 +410,8 @@ const Database = () => {
                 </div>
                 <div className="black-board-content-main">
                   <div className="accordion" id="accordionExample">
-                    <div className="accordion-item student-card">
-                      {facultyData?.map((faculty) => (
+                    {facultyData?.map((faculty) => (
+                      <div className="accordion-item student-card">
                         <div>
                           <h2
                             className="accordion-header d-flex"
@@ -470,17 +508,17 @@ const Database = () => {
                                     Basic Details
                                   </div>
                                   <div className="student-info-card">
-                                    <b>DOB:</b> 17/04/2003
+                                    <b>DOB:</b> {faculty?.birthdate || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Phone no:</b> 9989784565
+                                    <b>Phone no:</b> {faculty?.mobile || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Email:</b> rahul123@gmail.com
+                                    <b>Email:</b>
+                                    {faculty?.email || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Address:</b> A/41 ramrajya nagar, nr.
-                                    ayodhya park, nikol, Ahmedabad.
+                                    <b>Address:</b> {faculty?.address || " - "}
                                   </div>
                                 </div>
                                 <div className="education-detail-blackboard mt-3">
@@ -488,13 +526,14 @@ const Database = () => {
                                     Education Details
                                   </div>
                                   <div className="student-info-card">
-                                    <b>SSC:</b> 65%
+                                    <b>SSC:</b> {faculty?.ssc_marks || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>HSC:</b> 60%
+                                    <b>HSC:</b> {faculty?.hsc_marks || " - "}
                                   </div>
                                   <div className="student-info-card">
-                                    <b>Graduation:</b> BscIt
+                                    <b>Graduation:</b>{" "}
+                                    {faculty?.graduation || " - "}
                                   </div>
                                 </div>
                               </div>
@@ -566,8 +605,8 @@ const Database = () => {
                             </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -596,18 +635,32 @@ const Database = () => {
                 </div>
                 <div className="semester-selection">
                   <select name="semester" id="sem" onChange={handleSemChange}>
-                    {semDropdown &&
-                      semDropdown.length &&
-                      semDropdown.map((data) => (
-                        <option value={data}>Sem {data}</option>
-                      ))}
+                    {semDropdown && semDropdown.length
+                      ? semDropdown &&
+                        semDropdown.map((data) => (
+                          <option value={data}>Sem {data}</option>
+                        ))
+                      : semArrayData &&
+                        semArrayData.map((data) => (
+                          <option value={data}>Sem {data}</option>
+                        ))}
                   </select>
                 </div>
                 <div className="batch-selection">
                   <select name="" id="" onChange={handleBatchChange}>
-                    <option value="a">Batch A</option>
-                    <option value="b">Batch B</option>
-                    <option value="c">Batch c</option>
+                    {subjectBranch === "it" && subjectSem === "1"
+                      ? batchData
+                          ?.filter(
+                            (data) =>
+                              data?.branch === "it" && data?.semester === "1"
+                          )
+                          .map((data) => (
+                            <option value={data.batch}>Batch {data?.batch.toUpperCase()}</option>
+                          ))
+                      : batchDropdown &&
+                        batchDropdown.map((data) => (
+                          <option value={data}>Batch {data}</option>
+                        ))}
                   </select>
                 </div>
               </div>
@@ -707,6 +760,7 @@ const Database = () => {
       </div>
 
       {/* all modal starts from here */}
+
       {/* this model edit the faculty  */}
       <div
         className="modal fade"
@@ -949,13 +1003,27 @@ const Database = () => {
             <div className="modal-body custom-modal-body">
               <form className="student-detail-edit-form" action="">
                 <label htmlFor="">Batch Name:</label>
-                <input type="text" />
+                <input
+                  type="text"
+                  onChange={(e) => setSemBatch(e.target.value)}
+                />
+                <br />
+                <br />
+                <label htmlFor="batchsem">Select Semester :</label>
+                <select name="" id="batchsem" onChange={handleSemChange}>
+                  {semDropdown &&
+                    semDropdown.length &&
+                    semDropdown.map((data) => (
+                      <option value={data}>Sem {data}</option>
+                    ))}
+                </select>
                 <br />
                 <br />
                 <input
                   type="submit"
                   className="course-submit"
                   value="Add Batch"
+                  onClick={(e) => addBatchHandler(e)}
                 />
               </form>
             </div>
@@ -1048,16 +1116,16 @@ const Database = () => {
                   onChange={(e) => setFacultyEmail(e.target.value)}
                 />
                 <br />
+                <label htmlFor="">Password: </label>
+                <input
+                  type="password"
+                  onChange={(e) => setFacultyPassword(e.target.value)}
+                />
+                <br />
                 <label htmlFor="">EnrollMent No: </label>
                 <input
                   type="text"
                   onChange={(e) => setFacultyEnrollNo(e.target.value)}
-                />
-                <br />
-                <label htmlFor="">Password: </label>
-                <input
-                  type="text"
-                  onChange={(e) => setFacultyPassword(e.target.value)}
                 />
                 <br />
                 <input
@@ -1065,7 +1133,7 @@ const Database = () => {
                   data-dismiss="modal"
                   aria-label="Close"
                   className="course-submit"
-                  value="Send Invitation"
+                  value="Add Faculty"
                   onClick={(e) => facultyAddHandler(e)}
                 />
               </form>

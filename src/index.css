@@ -375,6 +375,7 @@
         padding: 5px;
         border-radius: 20px 0 20px 20px;
         background: whitesmoke;
+        cursor: pointer;
     }
     
     .left-setting-content.light-theme .edit-icon svg path {
@@ -596,6 +597,7 @@
         border-radius: 40px;
         font-size: 17px;
         font-weight: 500;
+        cursor: pointer;
     }
     
     .dashboard-body.light-theme .add-students {

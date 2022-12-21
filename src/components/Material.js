@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 const Material = () => {
   const [courseData, setcourseData] = useState([]);
@@ -7,9 +7,45 @@ const Material = () => {
     const { data } = await axios.get(`http://localhost:8000/course/`);
     setcourseData(data?.data?.users);
   };
+  const [subjectData, setsubjectData] = useState([]);
+  const [subjectName, setSubjectName] = useState("");
+  const [subjectSem, setSubjectSem] = useState("1");
+  const [subjectBranch, setSubjectBranch] = useState("it");
+  const [subjectBatch, setSubjectBatch] = useState("a");
+  const handleSemChange = (e) => {
+    setSubjectSem(e.target.value);
+  };
+
+  const handleBrachChange = (e) => {
+    setSubjectBranch(e.target.value);
+  };
+
+  const handleBatchChange = (e) => {
+    setSubjectBatch(e.target.value);
+  };
+  const semDropdown = useMemo(() => {
+    if (subjectBranch) {
+      const semester = courseData
+        ?.filter((data) => data?.course_name === subjectBranch)
+        .map((data) => {
+          return data?.semester;
+        });
+      const semArray = Array.from(
+        { length: semester.toString() },
+        (_, i) => i + 1
+      );
+      return semArray;
+    }
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }, [subjectBranch]);
+  const getsubjctData = async () => {
+    const { data } = await axios.get(`http://localhost:8000/subject/`);
+    setsubjectData(data?.data?.users);
+  };
 
   useEffect(() => {
     getcourseData();
+    getsubjctData();
   }, []);
   return (
     <div className='Material'>
@@ -31,41 +67,54 @@ const Material = () => {
               <div className="material-content-tab">
                 <div className="black-board-head subject-handle-head d-flex justify-content-between align-items-center">
                   <div className="course-selection">
-                    <select name="" id="">
+                  <select
+                    name="branch"
+                    id="branch"
+                    onChange={handleBrachChange}
+                  >
                     {courseData &&
                       courseData?.map((d) => (
                         <option value={d?.course_name}>{d?.course_name}</option>
                       ))}
-                    </select>
+                  </select>
                   </div>
                   <div className="semester-selection">
-                    <select name="" id="">
-                      <option value="">Sem 1st</option>
-                      <option value="">Sem 2nd</option>
-                      <option value="">Sem 3rd</option>
-                    </select>
+                  <select name="semester" id="sem" onChange={handleSemChange}>
+                    {semDropdown &&
+                      semDropdown.length &&
+                      semDropdown.map((data) => (
+                        <option value={data}>Sem {data}</option>
+                      ))}
+                  </select>
                   </div>
                   <div className="batch-selection">
-                    <select name="" id="">
-                      <option value="">Batch A</option>
-                      <option value="">Batch B</option>
-                      <option value="">Batch c</option>
-                    </select>
+                  <select name="" id="" onChange={handleBatchChange}>
+                    <option value="a">Batch A</option>
+                    <option value="b">Batch B</option>
+                    <option value="c">Batch c</option>
+                  </select>
                   </div>
                 </div>  
                 <div className="material-subjects-cards-content d-flex ">
                     <div className="material-subjects">
                    
                         <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        {subjectData &&
+                  subjectData
+                    .filter(
+                      (data) =>
+                        data?.branch === subjectBranch &&
+                        data?.semester === subjectSem &&
+                        data?.batch === subjectBatch
+                    )
+                    .map((s) => {
+                      return (
+
                           <li className="nav-item" role="presentation">
-                            <div className="nav-link active" id="pills-sub1-tab" data-bs-toggle="pill" data-bs-target="#pills-sub1" type="button" role="tab" aria-controls="pills-sub1" aria-selected="true">Digital fundamentals</div>
+                            <div className="nav-link " id="pills-sub1-tab" data-bs-toggle="pill" data-bs-target="#pills-sub1" type="button" role="tab" aria-controls="pills-sub1" aria-selected="true">{s.subject_name}</div>
                           </li>
-                          <li className="nav-item" role="presentation">
-                            <div className="nav-link" id="pills-sub2-tab" data-bs-toggle="pill" data-bs-target="#pills-sub2" type="button" role="tab" aria-controls="pills-sub2" aria-selected="false">Mathematics</div>
-                          </li>
-                          <li className="nav-item" role="presentation">
-                            <div className="nav-link" id="pills-sub3-tab" data-bs-toggle="pill" data-bs-target="#pills-sub3" type="button" role="tab" aria-controls="pills-sub3" aria-selected="false">C Language</div>
-                          </li>
+                      )})}
+                         
                         </ul>
         
      

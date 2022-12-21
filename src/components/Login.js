@@ -26,6 +26,9 @@ const Login = () => {
   if(userData?.data?.faculty){
     localStorage.setItem("user", JSON.stringify(userData?.data?.faculty));
   }
+  if(userData?.data?.student){
+    localStorage.setItem("user", JSON.stringify(userData?.data?.student));
+  }
 
   return (
     <div className="Signup">
