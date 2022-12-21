@@ -52,7 +52,7 @@ const Setting = () => {
             <div className="setting-profile-image">
               <img src={profileImage} alt="" />
             </div>
-            <div className="setting-profile-name ">{user?.first_name || " Unknown "}</div>
+            <div className="setting-profile-name ">{user?.name || " Unknown "}</div>
             <div className="edit-icon" data-toggle="modal"
                 data-target="#editProfile">
               <svg
