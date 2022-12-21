@@ -597,6 +597,7 @@
         border-radius: 40px;
         font-size: 17px;
         font-weight: 500;
+        cursor: pointer;
     }
     
     .dashboard-body.light-theme .add-students {
